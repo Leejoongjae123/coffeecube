@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { DatePicker } from "@/components/ui/date-picker";
 import { ChevronDown, Search, RotateCcw, FileSpreadsheet } from "lucide-react";
 
@@ -146,7 +145,7 @@ export default function StatisticsDetail() {
             <div className="flex gap-3.5 items-center">
               <div className="flex gap-5 items-center">
                 <div className="text-xl text-neutral-700">
-                  검색 조건
+                  검색조건
                 </div>
                 <div className="flex gap-3 items-center text-sm text-center whitespace-nowrap text-neutral-500">
                   <Button
@@ -300,68 +299,70 @@ export default function StatisticsDetail() {
 
       </div>
 
-      {/* Sort Controls */}
-      <div className="flex gap-5 items-center self-start text-xs whitespace-nowrap text-neutral-500 mt-4">
-        <div className="self-stretch my-auto font-bold">정렬기준</div>
-        <div className="flex gap-2 items-center self-stretch my-auto font-medium">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex gap-2.5 items-center px-4 py-2.5 bg-white rounded-md border-gray-200">
-                <span className="text-xs text-neutral-500">{sortOrder}</span>
-                <ChevronDown className="h-2.5 w-2.5 text-neutral-500" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setSortOrder('내림차순')}>내림차순</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSortOrder('오름차순')}>오름차순</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex gap-2.5 items-center px-4 py-2.5 bg-white rounded-md border-gray-200">
-                <span className="text-xs text-neutral-500">{sortBy}</span>
-                <ChevronDown className="h-2.5 w-2.5 text-neutral-500" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setSortBy('상태')}>상태</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSortBy('날짜')}>날짜</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setSortBy('수거량')}>수거량</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+      {/* Sort Controls and Export Button */}
+      <div className="flex justify-between items-center w-full mt-4 mb-4">
+        <div className="flex gap-5 items-center text-xs whitespace-nowrap text-neutral-500">
+          <div className="font-bold">정렬기준</div>
+          <div className="flex gap-2 items-center font-medium">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex gap-2.5 items-center px-4 py-2.5 bg-white rounded-md border-gray-200">
+                  <span className="text-xs text-neutral-500">{sortOrder}</span>
+                  <ChevronDown className="h-2.5 w-2.5 text-neutral-500" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setSortOrder('내림차순')}>내림차순</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortOrder('오름차순')}>오름차순</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex gap-2.5 items-center px-4 py-2.5 bg-white rounded-md border-gray-200">
+                  <span className="text-xs text-neutral-500">{sortBy}</span>
+                  <ChevronDown className="h-2.5 w-2.5 text-neutral-500" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setSortBy('상태')}>상태</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('날짜')}>날짜</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('수거량')}>수거량</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+
+        {/* Export Button */}
+        <div className="flex gap-3 items-center px-3 py-2 text-sm font-bold text-green-600 rounded-lg border-2 border-green-600 border-solid hover:bg-green-50 cursor-pointer">
+          <FileSpreadsheet className="h-6 w-6" />
+          <div>엑셀 저장</div>
         </div>
       </div>
 
-      {/* Export Button */}
-      <div className="flex z-10 gap-3 items-center self-end px-3 py-2 mt-0 text-sm font-bold text-green-600 rounded-lg border-2 border-green-600 border-solid hover:bg-green-50 cursor-pointer">
-        <FileSpreadsheet className="h-6 w-6" />
-        <div className="self-stretch my-auto">엑셀 저장</div>
-      </div>
-
       {/* Data Table */}
-      <div className="-mt-10 w-full text-xs font-medium text-center max-w-[1668px] text-stone-500 max-md:max-w-full">
+      <div className="w-full text-xs font-medium text-center max-w-[1668px] text-stone-500 max-md:max-w-full">
         <div className="w-full max-md:max-w-full">
           {/* Table Header */}
-          <div className="flex overflow-hidden flex-wrap gap-10 justify-between items-center w-full rounded bg-zinc-100 max-md:max-w-full">
+          <div className="flex overflow-hidden flex-wrap gap-10 justify-between items-center w-full rounded bg-[#EEEEEE] max-md:max-w-full">
             <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto font-bold whitespace-nowrap text-neutral-600 w-[140px]">
               <div className="self-stretch my-auto">날짜</div>
             </div>
-            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto whitespace-nowrap bg-zinc-100 w-[140px]">
+            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto whitespace-nowrap bg-[#EEEEEE] w-[140px]">
               <div className="self-stretch my-auto">아이디</div>
             </div>
-            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto whitespace-nowrap bg-zinc-100 w-[140px]">
+            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto whitespace-nowrap bg-[#EEEEEE] w-[140px]">
               <div className="self-stretch my-auto">회원코드</div>
             </div>
-            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto whitespace-nowrap bg-zinc-100 w-[140px]">
+            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto whitespace-nowrap bg-[#EEEEEE] w-[140px]">
               <div className="self-stretch my-auto">주소</div>
             </div>
-            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto bg-zinc-100 w-[140px]">
+            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto bg-[#EEEEEE] w-[140px]">
               <div className="self-stretch my-auto">비니봇 코드</div>
             </div>
-            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto whitespace-nowrap bg-zinc-100 w-[140px]">
+            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto whitespace-nowrap bg-[#EEEEEE] w-[140px]">
               <div className="self-stretch my-auto">수거량</div>
             </div>
-            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto bg-zinc-100 w-[140px]">
+            <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto bg-[#EEEEEE] w-[140px]">
               <div className="self-stretch my-auto">수거 방식</div>
             </div>
           </div>
@@ -369,7 +370,7 @@ export default function StatisticsDetail() {
           {/* Table Rows */}
           {mockData.map((row, index) => (
             <div key={index} className="flex flex-wrap gap-10 justify-between items-center w-full rounded max-md:max-w-full">
-              <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto font-semibold whitespace-nowrap bg-zinc-100 w-[140px]">
+              <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto font-semibold whitespace-nowrap bg-[#EEEEEE] w-[140px]">
                 <div className="self-stretch my-auto">{row.date}</div>
               </div>
               <div className="flex gap-2.5 justify-center items-center self-stretch px-2.5 py-4 my-auto whitespace-nowrap w-[140px]">

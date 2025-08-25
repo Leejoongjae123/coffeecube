@@ -17,7 +17,7 @@ const TabButton = ({
     onClick={onClick}
     className={`flex gap-2 items-center px-5 h-[54px] text-lg font-semibold transition-colors max-sm:px-4 max-sm:h-[54px] max-sm:text-sm ${
       active 
-        ? "text-neutral-600 border-b-2 border-primary" 
+        ? "text-primary border-b-2 border-primary" 
         : "text-neutral-600 hover:text-primary/70"
     }`}
   >

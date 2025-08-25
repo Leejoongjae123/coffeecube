@@ -37,13 +37,12 @@ export function MonthlyChart() {
       chart.data.datasets.forEach((dataset, datasetIndex) => {
         const meta = chart.getDatasetMeta(datasetIndex);
         meta.data.forEach((bar) => {
-          const barElement = bar as {
-            x: number;
-            y: number;
-            base: number;
-            width: number;
-          };
-          const { x, y, base, width } = barElement;
+          // Chart.js BarElement 속성에 안전하게 접근
+          const barElement = bar as unknown as Record<string, number>;
+          const x = barElement.x || 0;
+          const y = barElement.y || 0;
+          const base = barElement.base || 0;
+          const width = barElement.width || 0;
           const radius = width / 2; // 완전히 둥근 탑
           
           ctx.save();
@@ -153,7 +152,6 @@ export function MonthlyChart() {
         const barElement = meta.data[dataIndex];
         
         // 캔버스 좌표를 컨테이너 좌표로 변환
-        const canvasPosition = chart.canvas.getBoundingClientRect();
         
         setHoveredData({
           month: months[dataIndex],

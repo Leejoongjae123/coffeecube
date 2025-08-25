@@ -64,7 +64,7 @@ export default function DashboardPage() {
         
         {/* Header Section */}
         <div className="w-full ">
-          <div className="text-3xl font-bold text-neutral-700 mb-4 max-md:text-3xl max-sm:text-2xl">
+          <div className="text-3xl font-bold text-neutral-700 mb-7 max-md:text-3xl max-sm:text-2xl">
             대시보드
           </div>
           
