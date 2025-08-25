@@ -21,4 +21,41 @@ export interface SortState {
   sortBy: string;
 }
 
-export type TabType = 'collection' | 'details';
+export interface RobotData {
+  id: string;
+  code: string;
+  isActive: 'Y' | 'N';
+  location: string;
+  currentCollection: string;
+  status: '정상' | '장애 발생' | '수거 대상';
+  lastCollectionDate: string;
+  installationDate: string;
+  totalCollection: string;
+}
+
+export interface RobotSearchFilters {
+  searchCondition: string;
+  searchQuery: string;
+  status: string;
+}
+
+export type TabType = 'robot-register' | 'robot-search' | 'visit-register' | 'visit-schedule' | 'siheung-map';
+
+// 지도 관련 타입
+export interface PinPoint {
+  id: string;
+  x: number;
+  y: number;
+  timestamp: Date;
+}
+
+export interface MapCoordinates {
+  x: number;
+  y: number;
+}
+
+export interface SiheungMapViewProps {
+  onCoordinateSelect?: (x: number, y: number) => void;
+  selectedCoordinates?: MapCoordinates | null;
+  initialPins?: PinPoint[];
+}

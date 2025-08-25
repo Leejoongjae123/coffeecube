@@ -9,7 +9,7 @@ export default function ExtractPage() {
         <h1 className="text-3xl font-bold text-neutral-700 max-sm:text-2xl">비니봇 · 방문수거 관리</h1>
       </div>
 
-      <ExtractPageClient initialData={[]} />
+      <ExtractPageClient />
     </div>
   )
 }

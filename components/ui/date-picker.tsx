@@ -41,15 +41,14 @@ export function DatePicker({ selected, onSelect, placeholder = "날짜 입력", 
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "flex overflow-hidden gap-4 justify-between items-center p-3 font-medium bg-white rounded-md border border-gray-200 border-solid w-[140px] text-xs",
-            selectedDate ? "text-sky-500" : "text-neutral-500",
+            "flex overflow-hidden gap-4 justify-between items-center p-3 font-medium bg-transparent rounded-md border-0 text-neutral-500 w-full text-base",
             className
           )}
         >
-          <div className="w-full ">
+          <div className="w-full text-left">
             {selectedDate ? formatDate(selectedDate) : placeholder}
           </div>
-          <CalendarIcon className="w-3 h-3" />
+          <CalendarIcon className="w-4 h-4 text-black" />
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0 border-0 shadow-none" align="start">

@@ -16,25 +16,48 @@ export default function TabNavigation({ activeTab, onTabChange }: TabNavigationP
         <Button
           variant="ghost"
           className={`px-5 h-[54px] rounded-none border-b-2 transition-colors ${
-            activeTab === 'collection' 
+            activeTab === 'robot-register' 
               ? 'border-b-primary text-primary' 
               : 'border-b-transparent text-gray-600 hover:text-gray-800'
           }`}
-          onClick={() => onTabChange('collection')}
+          onClick={() => onTabChange('robot-register')}
         >
-          <span className="text-lg font-semibold">수거량 통계</span>
+          <span className="text-lg font-semibold">비니봇 등록</span>
         </Button>
         <Button
           variant="ghost"
           className={`px-5 h-[54px] rounded-none border-b-2 transition-colors ${
-            activeTab === 'details' 
+            activeTab === 'robot-search' 
               ? 'border-b-primary text-primary' 
               : 'border-b-transparent text-gray-600 hover:text-gray-800'
           }`}
-          onClick={() => onTabChange('details')}
+          onClick={() => onTabChange('robot-search')}
         >
-          <span className="text-lg font-semibold">통계 상세</span>
+          <span className="text-lg font-semibold">비니봇 검색</span>
         </Button>
+        <Button
+          variant="ghost"
+          className={`px-5 h-[54px] rounded-none border-b-2 transition-colors ${
+            activeTab === 'visit-register' 
+              ? 'border-b-primary text-primary' 
+              : 'border-b-transparent text-gray-600 hover:text-gray-800'
+          }`}
+          onClick={() => onTabChange('visit-register')}
+        >
+          <span className="text-lg font-semibold">방문수거 등록·수정</span>
+        </Button>
+        <Button
+          variant="ghost"
+          className={`px-5 h-[54px] rounded-none border-b-2 transition-colors ${
+            activeTab === 'visit-schedule' 
+              ? 'border-b-primary text-primary' 
+              : 'border-b-transparent text-gray-600 hover:text-gray-800'
+          }`}
+          onClick={() => onTabChange('visit-schedule')}
+        >
+          <span className="text-lg font-semibold">방문수거 일정조회·수거량 입력</span>
+        </Button>
+
         {/* 나머지 공간을 채우는 빈 영역 */}
         <div className="flex-1 border-b border-zinc-100"></div>
       </div>
