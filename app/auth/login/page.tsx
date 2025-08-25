@@ -1,8 +1,6 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
@@ -56,7 +54,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Section - Login Form */}
-      <div className="flex relative gap-2.5 justify-center items-center p-14 bg-sky-500 h-full w-[35%] max-md:p-10 max-md:w-full max-md:h-auto max-sm:p-5">
+      <div className="flex relative gap-2.5 justify-center items-center p-14 bg-primary h-full w-[35%] max-md:p-10 max-md:w-full max-md:h-auto max-sm:p-5">
         <div className="flex relative flex-col gap-11 items-start w-[400px] max-md:w-full max-md:max-w-[400px] max-sm:gap-8">
           <div className="flex relative gap-4 justify-center items-center self-stretch">
             <div className="relative text-3xl font-bold text-white max-md:text-3xl max-sm:text-2xl">
@@ -96,7 +94,7 @@ export default function LoginPage() {
                 disabled={isLoading}
                 className="flex relative flex-col gap-2.5 justify-center items-center self-stretch p-6 bg-white rounded-xl cursor-pointer hover:bg-gray-100 transition-colors max-sm:p-5"
               >
-                <div className="relative text-xl font-black leading-7 text-center text-sky-500 max-sm:text-lg">
+                <div className="relative text-xl font-black leading-7 text-center text-primary max-sm:text-lg">
                   {isLoading ? "로그인 중..." : "로그인"}
                 </div>
               </button>

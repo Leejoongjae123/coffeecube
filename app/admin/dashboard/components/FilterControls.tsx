@@ -30,7 +30,7 @@ export function FilterControls({
                 onClick={() => onPeriodChange(period)}
                 className={`flex gap-2.5 justify-center items-center px-4 py-2.5 rounded-[30px] ${
                   selectedPeriod === period 
-                    ? 'bg-sky-500 text-white font-bold' 
+                    ? 'bg-primary text-white font-bold' 
                     : 'bg-gray-200 text-neutral-500 font-semibold'
                 }`}
               >
@@ -53,7 +53,7 @@ export function FilterControls({
                 <div key={method} className="flex gap-2 items-center">
                   <div className="relative">
                     <div className={`w-[17px] h-[17px] rounded-full border-[1.2px] flex items-center justify-center ${
-                      isSelected ? 'bg-sky-500 border-sky-500' : 'bg-gray-400 border-gray-400'
+                      isSelected ? 'bg-primary border-primary' : 'bg-gray-400 border-gray-400'
                     }`}>
                       {isSelected && (
                         <Check className="w-3 h-3 text-white stroke-[1.2]" />
@@ -63,7 +63,7 @@ export function FilterControls({
                   <button
                     onClick={() => onMethodToggle(method)}
                     className={`text-sm font-bold ${
-                      isSelected ? 'text-sky-500' : 'text-neutral-400 font-semibold'
+                      isSelected ? 'text-primary' : 'text-neutral-400 font-semibold'
                     }`}
                   >
                     {method}
@@ -76,7 +76,7 @@ export function FilterControls({
       </div>
       
       <div className="flex gap-2 items-center">
-        <Button onClick={onSearch} className="flex gap-2.5 justify-center items-center px-0 py-3 bg-sky-500 rounded-lg w-[120px] max-sm:w-[100px] hover:bg-sky-600">
+        <Button onClick={onSearch} className="flex gap-2.5 justify-center items-center px-0 py-3 bg-primary rounded-lg w-[120px] max-sm:w-[100px] hover:bg-sky-600">
           <Search className="w-[17px] h-[17px] text-white" />
           <span className="text-base font-semibold text-white max-sm:text-sm">
             검색
@@ -85,10 +85,10 @@ export function FilterControls({
         <Button 
           variant="outline" 
           onClick={onReset}
-          className="flex gap-2.5 justify-center items-center px-0 py-3 bg-white rounded-lg border-sky-500 border-solid border-[1.3px] w-[120px] max-sm:w-[100px] hover:bg-sky-50"
+          className="flex gap-2.5 justify-center items-center px-0 py-3 bg-white rounded-lg border-primary border-solid border-[1.3px] w-[120px] max-sm:w-[100px] hover:bg-sky-50"
         >
-          <RotateCcw className="w-[17px] h-[17px] text-sky-500" />
-          <span className="text-base font-semibold text-sky-500 max-sm:text-sm">
+          <RotateCcw className="w-[17px] h-[17px] text-primary" />
+          <span className="text-base font-semibold text-primary max-sm:text-sm">
             초기화
           </span>
         </Button>

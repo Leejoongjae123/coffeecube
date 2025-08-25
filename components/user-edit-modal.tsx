@@ -2,9 +2,8 @@
 
 import * as React from "react";
 import { X, Edit3, Download } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 interface UserData {
   id: string;
@@ -28,14 +27,12 @@ interface UserEditModalProps {
 const FormField = ({ 
   label, 
   value, 
-  onChange, 
   editable = false, 
   width = "w-[272px]",
   className = ""
 }: {
   label: string;
   value: string;
-  onChange?: (value: string) => void;
   editable?: boolean;
   width?: string;
   className?: string;

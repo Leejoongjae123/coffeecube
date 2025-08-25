@@ -14,10 +14,10 @@ const TabButton = ({
 }) => (
   <button
     onClick={onClick}
-    className={`flex gap-2 items-center px-5 py-4 text-lg font-semibold transition-colors ${
+    className={`flex gap-2 items-center px-5 h-[54px] text-lg font-semibold transition-colors ${
       active 
-        ? "text-sky-500 border-b-2 border-sky-500" 
-        : "text-neutral-600 hover:text-sky-400"
+        ? "text-primary border-b-2 border-primary" 
+        : "text-neutral-600 hover:text-primary/70"
     }`}
   >
     {children}

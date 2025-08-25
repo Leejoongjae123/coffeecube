@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Edit3, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const EditIcon = () => (
@@ -55,12 +54,10 @@ const DownloadIcon = () => (
 const FormField = ({ 
   label, 
   value, 
-  placeholder = "",
   editable = false
 }: {
   label: string;
   value: string;
-  placeholder?: string;
   editable?: boolean;
 }) => (
   <div className="flex items-center self-stretch h-11 max-sm:flex-col max-sm:gap-2 max-sm:items-start max-sm:h-auto">
@@ -81,12 +78,12 @@ const FormField = ({
 );
 
 export default function AdminSettingsPanel() {
-  const [passwordChangeData, setPasswordChangeData] = React.useState({
+  const [passwordChangeData] = React.useState({
     userId: "asdfghjkl001",
     password: "***********"
   });
 
-  const [adminRegistrationData, setAdminRegistrationData] = React.useState({
+  const [adminRegistrationData] = React.useState({
     userId: "asdfghjkl001",
     password: "***********"
   });

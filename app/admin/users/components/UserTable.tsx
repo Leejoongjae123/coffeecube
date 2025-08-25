@@ -19,7 +19,7 @@ const TableCell = ({
   width: string; 
   className?: string 
 }) => (
-  <div className={`flex gap-2.5 justify-center items-center px-2.5 py-4 font-medium ${width} ${className}`}>
+  <div className={`flex gap-2.5 justify-center items-center px-2.5 py-4 font-medium text-xs ${width} ${className}`}>
     {children}
   </div>
 );
@@ -35,7 +35,7 @@ const TableRow = ({
 }) => (
   <div 
     className={`flex flex-nowrap gap-2 justify-between items-center px-4 w-full whitespace-nowrap rounded cursor-pointer hover:bg-gray-50 transition-colors min-w-fit ${
-      highlighted ? "bg-blue-100 text-sky-500" : ""
+      highlighted ? "bg-blue-100 text-primary" : ""
     }`}
     onClick={onClick}
   >
@@ -54,7 +54,7 @@ export default function UserTable({
     <div className="mt-4 w-full font-medium text-center text-stone-500 max-md:max-w-full">
       <div className="overflow-x-auto">
         {/* Table Header */}
-        <div className="flex flex-nowrap gap-2 justify-between items-center px-4 w-full font-bold rounded bg-zinc-100 text-neutral-600 min-w-fit">
+        <div className="text-[12px] font-bold flex flex-nowrap gap-2 justify-between items-center px-4 w-full font-bold rounded bg-zinc-100 text-neutral-600 min-w-fit">
           <TableHeader width="w-[60px]">번호</TableHeader>
           <TableHeader width="w-[140px]">아이디</TableHeader>
           <TableHeader width="w-[120px]">휴대폰번호</TableHeader>
@@ -99,7 +99,7 @@ export default function UserTable({
             )}
             <TableCell width="w-16" className="py-3.5">
               <div
-                className="flex gap-1 justify-center items-center cursor-pointer hover:text-sky-500 transition-colors"
+                className="flex gap-1 justify-center items-center cursor-pointer hover:text-primary transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   onEditUser(user);

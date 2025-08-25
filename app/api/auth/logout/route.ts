@@ -25,7 +25,7 @@ export async function POST() {
       { message: "성공적으로 로그아웃되었습니다." },
       { status: 200 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "로그아웃 처리 중 예상치 못한 오류가 발생했습니다." },
       { status: 500 }

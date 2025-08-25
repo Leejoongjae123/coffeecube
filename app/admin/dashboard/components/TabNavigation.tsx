@@ -15,10 +15,10 @@ const TabButton = ({
 }: TabButtonProps) => (
   <button
     onClick={onClick}
-    className={`flex gap-2 items-center px-5 py-4 text-lg font-semibold transition-colors max-sm:px-4 max-sm:py-3 max-sm:text-sm ${
+    className={`flex gap-2 items-center px-5 h-[54px] text-lg font-semibold transition-colors max-sm:px-4 max-sm:h-[54px] max-sm:text-sm ${
       active 
-        ? "text-neutral-600 border-b-2 border-sky-500" 
-        : "text-neutral-600 hover:text-sky-400"
+        ? "text-neutral-600 border-b-2 border-primary" 
+        : "text-neutral-600 hover:text-primary/70"
     }`}
   >
     {children}

@@ -1,5 +1,4 @@
 import Header from "@/components/header";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export default function ProtectedLayout({
   children,
