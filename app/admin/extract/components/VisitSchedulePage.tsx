@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Search, RotateCcw, Calendar } from 'lucide-react';
+import { ChevronDown, Search, RotateCcw } from 'lucide-react';
 
 interface VisitScheduleData {
   id: string;
@@ -114,7 +114,7 @@ export default function VisitSchedulePage() {
   const [searchCondition, setSearchCondition] = useState('전체');
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-  const [data, setData] = useState(mockData);
+  const [data] = useState(mockData);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   const periods = ['오늘', '7일', '30일', '전체'];

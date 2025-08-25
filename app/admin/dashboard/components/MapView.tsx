@@ -2,6 +2,7 @@
 
 import React from 'react';
 import type { StatusMarker } from '../types';
+import Image from 'next/image';
 
 interface MapViewProps {
   statusMarkers: StatusMarker[];
@@ -13,9 +14,11 @@ export function MapView({ statusMarkers }: MapViewProps) {
       {/* Map Content */}
       <div className="relative h-[595px] w-[842px] max-md:h-[90%] max-md:w-[90%]">
         {/* Map Image */}
-        <img
+        <Image
           src="https://api.builder.io/api/v1/image/assets/TEMP/56987c6e78c2fb004cd3a607cb62e85f430bbace?width=1154"
           alt="시흥시 행정구역 지도"
+          width={577}
+          height={563}
           className="absolute top-6 h-[563px] left-[121px] w-[577px] max-md:w-4/5 max-md:h-4/5 max-md:left-[10%] max-md:top-[10%]"
         />
 

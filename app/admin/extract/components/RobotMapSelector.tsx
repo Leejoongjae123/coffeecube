@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 import type { MapCoordinates } from '../types';
 
 interface RobotMapSelectorProps {
