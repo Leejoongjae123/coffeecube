@@ -140,7 +140,7 @@ export default function StatisticsDetail() {
     <div className="flex flex-col w-full max-w-[1668px]">
       {/* Search Filter Section */}
       <div className="flex flex-col w-full">
-        <div className="flex gap-4 p-8 w-full font-semibold rounded-2xl bg-stone-50 max-md:px-5 max-md:max-w-full">
+        <div className="flex gap-4 p-8 w-full font-semibold rounded-2xl bg-stone-50 max-md:px-5 max-md:max-w-full h-[107px]">
           <div className="flex flex-1 gap-5 items-center">
             <div className="flex gap-3.5 items-center">
               <div className="flex gap-5 items-center">
@@ -195,7 +195,7 @@ export default function StatisticsDetail() {
                     selected={startDate}
                     onSelect={setStartDate}
                     placeholder="2025-08-08"
-                    className="w-[140px]"
+                    className="w-[140px] text-xs"
                   />
                   <div className="text-center">
                     -
@@ -204,7 +204,7 @@ export default function StatisticsDetail() {
                     selected={endDate}
                     onSelect={setEndDate}
                     placeholder="날짜 입력"
-                    className="w-[140px]"
+                    className="w-[140px] text-xs"
                   />
                 </div>
               </div>

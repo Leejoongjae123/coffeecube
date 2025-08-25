@@ -41,7 +41,7 @@ export function DatePicker({ selected, onSelect, placeholder = "날짜 입력", 
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "flex overflow-hidden gap-4 justify-between items-center p-3 font-medium bg-transparent rounded-md border-0 text-neutral-500 w-full text-base",
+            "flex overflow-hidden gap-4 justify-between items-center p-3 font-medium bg-transparent rounded-md border-0 text-neutral-500 w-full text-xs",
             className
           )}
         >

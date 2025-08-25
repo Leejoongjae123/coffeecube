@@ -66,7 +66,7 @@ export default function SearchFilters({
               className={`rounded-[30px] px-4 py-2.5 ${
                 period === 'daily'
                   ? 'bg-primary text-white hover:bg-primary/90'
-                  : 'hover:bg-gray-100'
+                  : 'bg-gray-200 text-neutral-500 hover:bg-gray-300'
               }`}
               onClick={() => setPeriod('daily')}
             >
@@ -78,7 +78,7 @@ export default function SearchFilters({
               className={`rounded-[30px] px-4 py-2.5 ${
                 period === 'monthly'
                   ? 'bg-primary text-white hover:bg-primary/90'
-                  : 'hover:bg-gray-100'
+                  : 'bg-gray-200 text-neutral-500 hover:bg-gray-300'
               }`}
               onClick={() => setPeriod('monthly')}
             >
