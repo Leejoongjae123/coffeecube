@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useCallback } from 'react';
+import Image from 'next/image';
 import type { MapCoordinates } from '../types';
 
 interface RobotMapSelectorProps {
@@ -48,9 +49,11 @@ export default function RobotMapSelector({
         onClick={handleMapClick}
       >
         {/* 시흥시 지도 이미지 - 축소된 크기로 비례 조정 */}
-        <img
-          src="https://api.builder.io/api/v1/image/assets/TEMP/56987c6e78c2fb004cd3a607cb62e85f430bbace?width=1154"
+        <Image
+          src="/map.svg"
           alt="시흥시 행정구역 지도"
+          width={289}
+          height={282}
           className="absolute top-3 h-[282px] left-[60px] w-[289px] max-md:w-4/5 max-md:h-4/5 max-md:left-[10%] max-md:top-[10%] pointer-events-none"
         />
 
@@ -98,11 +101,11 @@ export default function RobotMapSelector({
               top: `${selectedCoordinates.y / SCALE_FACTOR_Y}px`
             }}
           >
-            <img
+            <Image
               src="/pin.svg"
               alt="선택된 위치 핀"
-              width="25"
-              height="25"
+              width={25}
+              height={25}
               className="drop-shadow-lg animate-bounce"
             />
           </div>

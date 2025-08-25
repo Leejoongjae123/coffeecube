@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import type { PinPoint, SiheungMapViewProps } from '../types';
 
 export default function SiheungMapView({ 
@@ -91,9 +92,11 @@ export default function SiheungMapView({
           onClick={handleMapClick}
         >
           {/* 시흥시 지도 이미지 - dashboard와 동일한 이미지와 위치 */}
-          <img
+          <Image
             src="https://api.builder.io/api/v1/image/assets/TEMP/56987c6e78c2fb004cd3a607cb62e85f430bbace?width=1154"
             alt="시흥시 행정구역 지도"
+            width={577}
+            height={563}
             className="absolute top-6 h-[563px] left-[121px] w-[577px] max-md:w-4/5 max-md:h-4/5 max-md:left-[10%] max-md:top-[10%] pointer-events-none"
           />
 

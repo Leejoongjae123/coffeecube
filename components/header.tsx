@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
+import Image from "next/image";
 
 const menuItems = [
   { href: "/admin/dashboard", label: "대시보드" },
@@ -43,9 +44,11 @@ function HeaderContent() {
     >
       <div className="flex flex-wrap gap-5 justify-between w-full px-10 max-md:px-5">
         <Link href="/admin/dashboard">
-          <img
-            src="https://api.builder.io/api/v1/image/assets/TEMP/5b0a1a6d94fdd5548cfc94826428f0b0256eab7d?placeholderIfAbsent=true&apiKey=304aa4871c104446b0f8164e96d049f4"
-            className="object-contain shrink-0 max-w-full aspect-[2.65] w-[138px]"
+          <Image
+            src="/logo2.svg"
+            className="object-contain shrink-0 max-w-full "
+            width={138}
+            height={40}
             alt="Logo"
           />
         </Link>
