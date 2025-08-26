@@ -64,24 +64,24 @@ export default function LoginPage() {
           
           <form onSubmit={handleLogin} className="flex relative flex-col gap-8 items-start self-stretch">
             <div className="flex relative flex-col gap-5 items-start self-stretch">
-              <div className="flex relative flex-col gap-2.5 justify-center items-start self-stretch p-6 bg-sky-400 rounded-xl border border-blue-300 border-solid max-sm:p-5">
+              <div className="flex relative flex-col gap-2.5 justify-center items-start self-stretch p-6 bg-primary rounded-xl border border-blue-300 border-solid max-sm:p-5">
                 <input
                   type="email"
                   placeholder="아이디"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full bg-transparent border-none outline-none text-base font-semibold leading-6 text-sky-300 placeholder:text-sky-300 max-sm:text-sm"
+                  className="w-full bg-primary border-none outline-none text-base font-semibold leading-6 text-white placeholder:text-gray-300 max-sm:text-sm"
                 />
               </div>
-              <div className="flex relative flex-col gap-2.5 justify-center items-start self-stretch p-6 bg-sky-400 rounded-xl border border-blue-300 border-solid max-sm:p-5">
+              <div className="flex relative flex-col gap-2.5 justify-center items-start self-stretch p-6 bg-primary rounded-xl border border-blue-300 border-solid max-sm:p-5">
                 <input
                   type="password"
                   placeholder="비밀번호"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full bg-transparent border-none outline-none text-base font-semibold leading-6 text-sky-300 placeholder:text-sky-300 max-sm:text-sm"
+                  className="w-full bg-primary border-none outline-none text-base font-semibold leading-6 text-white placeholder:text-gray-300 max-sm:text-sm"
                 />
               </div>
             </div>
