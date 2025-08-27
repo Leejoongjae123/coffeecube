@@ -46,7 +46,7 @@ function HeaderContent() {
         <Link href="/admin/dashboard">
           <Image
             src="/logo2.svg"
-            className="object-contain shrink-0 max-w-full "
+            className="object-cover shrink-0 max-w-full "
             width={138}
             height={40}
             alt="Logo"

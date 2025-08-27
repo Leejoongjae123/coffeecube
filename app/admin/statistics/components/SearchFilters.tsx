@@ -195,7 +195,7 @@ export default function SearchFilters({
           <Search className="h-4 w-4 mr-2" />
           검색
         </Button>
-        <Button variant="outline" className="border-primary text-primary hover:bg-primary/5 px-6 py-3 rounded-lg w-full lg:w-[120px]" onClick={onReset}>
+        <Button variant="outline" className="border-primary bg-primary text-white hover:bg-primary/5 px-6 py-3 rounded-lg w-full lg:w-[120px]" onClick={onReset}>
           <RotateCcw className="h-4 w-4 mr-2" />
           초기화
         </Button>

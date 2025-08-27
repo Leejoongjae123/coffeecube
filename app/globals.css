@@ -66,3 +66,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .no-hover-bg {
+    @apply hover:bg-transparent !important;
+  }
+}

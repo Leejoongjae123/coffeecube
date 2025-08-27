@@ -25,36 +25,36 @@ export function MapView({ statusMarkers }: MapViewProps) {
         {/* Region Labels */}
         <div className="absolute h-[386px] left-[250px] top-[85px] w-[429px] max-md:w-3/5 max-md:h-3/5 max-md:left-[20%] max-md:top-[20%]">
           {/* All district labels positioned absolutely */}
-          <div className="absolute top-0 left-[182px] w-[34px] text-xs text-zinc-950">대야동</div>
-          <div className="absolute top-0.5 left-[243px] w-[34px] text-xs text-zinc-950">계수동</div>
-          <div className="absolute left-72 top-[42px] w-[34px] text-xs text-zinc-950">과림동</div>
-          <div className="absolute left-[152px] top-[54px] w-[34px] text-xs text-zinc-950">신천동</div>
-          <div className="absolute left-[207px] top-[47px] w-[34px] text-xs text-zinc-950">은행동</div>
-          <div className="absolute left-[246px] top-[79px] w-[34px] text-xs text-zinc-950">안현동</div>
-          <div className="absolute left-[237px] top-[125px] w-[34px] text-xs text-zinc-950">매화동</div>
-          <div className="absolute left-[309px] top-[121px] w-[34px] text-xs text-zinc-950">무지내동</div>
-          <div className="absolute left-[179px] top-[114px] w-[34px] text-xs text-zinc-950">미산동</div>
-          <div className="absolute left-[111px] top-[111px] w-[34px] text-xs text-zinc-950">방산동</div>
-          <div className="absolute left-[149px] top-[167px] w-[34px] text-xs text-zinc-950">포동</div>
-          <div className="absolute left-[254px] top-[154px] w-[34px] text-xs text-zinc-950">도창동</div>
-          <div className="absolute left-[200px] top-[185px] w-[34px] text-xs text-zinc-950">하중동</div>
-          <div className="absolute left-[243px] top-[201px] w-[34px] text-xs text-zinc-950">하상동</div>
-          <div className="absolute left-[302px] top-[191px] w-[34px] text-xs text-zinc-950">금이동</div>
-          <div className="absolute left-[358px] top-[195px] w-[34px] text-xs text-zinc-950">논곡동</div>
-          <div className="absolute left-[395px] top-[225px] w-[34px] text-xs text-zinc-950">목감동</div>
-          <div className="absolute left-[374px] top-[269px] w-[34px] text-xs text-zinc-950">조남동</div>
-          <div className="absolute left-[306px] top-[277px] w-[34px] text-xs text-zinc-950">산현동</div>
-          <div className="absolute left-[301px] top-[229px] w-[34px] text-xs text-zinc-950">물왕동</div>
-          <div className="absolute top-60 left-[246px] w-[34px] text-xs text-zinc-950">광석동</div>
-          <div className="absolute left-[202px] top-[250px] w-[34px] text-xs text-zinc-950">장현동</div>
-          <div className="absolute left-[158px] top-[234px] w-[34px] text-xs text-zinc-950">장곡동</div>
-          <div className="absolute left-[237px] top-[283px] w-[34px] text-xs text-zinc-950">능곡동</div>
-          <div className="absolute left-48 top-[313px] w-[34px] text-xs text-zinc-950">군자동</div>
-          <div className="absolute left-[262px] top-[319px] w-[34px] text-xs text-zinc-950">화정동</div>
-          <div className="absolute left-[89px] top-[237px] w-[34px] text-xs text-zinc-950">월곶동</div>
-          <div className="absolute left-[150px] top-[363px] w-[34px] text-xs text-zinc-950">거모동</div>
-          <div className="absolute left-[101px] top-[350px] w-[34px] text-xs text-zinc-950">죽을동</div>
-          <div className="absolute left-0 top-[371px] w-[34px] text-xs text-zinc-950">정왕동</div>
+          <div className="absolute top-0 left-[182px] w-full text-xs text-zinc-950">대야동</div>
+          <div className="absolute top-0.5 left-[243px] w-full text-xs text-zinc-950">계수동</div>
+          <div className="absolute left-72 top-[42px] w-full text-xs text-zinc-950">과림동</div>
+          <div className="absolute left-[152px] top-[54px] w-full text-xs text-zinc-950">신천동</div>
+          <div className="absolute left-[207px] top-[47px] w-full text-xs text-zinc-950">은행동</div>
+          <div className="absolute left-[246px] top-[79px] w-full text-xs text-zinc-950">안현동</div>
+          <div className="absolute left-[237px] top-[125px] w-full text-xs text-zinc-950">매화동</div>
+          <div className="absolute left-[309px] top-[121px] w-full text-xs text-zinc-950">무지내동</div>
+          <div className="absolute left-[179px] top-[114px] w-full text-xs text-zinc-950">미산동</div>
+          <div className="absolute left-[111px] top-[111px] w-full text-xs text-zinc-950">방산동</div>
+          <div className="absolute left-[149px] top-[167px] w-full text-xs text-zinc-950">포동</div>
+          <div className="absolute left-[254px] top-[154px] w-full text-xs text-zinc-950">도창동</div>
+          <div className="absolute left-[200px] top-[185px] w-full text-xs text-zinc-950">하중동</div>
+          <div className="absolute left-[243px] top-[201px] w-full text-xs text-zinc-950">하상동</div>
+          <div className="absolute left-[302px] top-[191px] w-full text-xs text-zinc-950">금이동</div>
+          <div className="absolute left-[358px] top-[195px] w-full text-xs text-zinc-950">논곡동</div>
+          <div className="absolute left-[395px] top-[225px] w-full text-xs text-zinc-950">목감동</div>
+          <div className="absolute left-[374px] top-[269px] w-full text-xs text-zinc-950">조남동</div>
+          <div className="absolute left-[306px] top-[277px] w-full text-xs text-zinc-950">산현동</div>
+          <div className="absolute left-[301px] top-[229px] w-full text-xs text-zinc-950">물왕동</div>
+          <div className="absolute top-60 left-[246px] w-full text-xs text-zinc-950">광석동</div>
+          <div className="absolute left-[202px] top-[250px] w-full text-xs text-zinc-950">장현동</div>
+          <div className="absolute left-[158px] top-[234px] w-full text-xs text-zinc-950">장곡동</div>
+          <div className="absolute left-[237px] top-[283px] w-full text-xs text-zinc-950">능곡동</div>
+          <div className="absolute left-48 top-[313px] w-full text-xs text-zinc-950">군자동</div>
+          <div className="absolute left-[262px] top-[319px] w-full text-xs text-zinc-950">화정동</div>
+          <div className="absolute left-[89px] top-[237px] w-full text-xs text-zinc-950">월곶동</div>
+          <div className="absolute left-[150px] top-[363px] w-full text-xs text-zinc-950">거모동</div>
+          <div className="absolute left-[101px] top-[350px] w-full text-xs text-zinc-950">죽을동</div>
+          <div className="absolute left-0 top-[371px] w-full text-xs text-zinc-950">정왕동</div>
         </div>
 
         {/* Status Markers */}

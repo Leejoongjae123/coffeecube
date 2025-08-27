@@ -15,7 +15,7 @@ interface DataTableProps {
 
 export default function DataTable({ data }: DataTableProps) {
   return (
-    <div className="flex flex-col items-start w-full overflow-x-auto">
+    <div className="flex flex-col items-start w-full overflow-x-auto text-zinc-950">
       {/* Table Header */}
       <div className="flex justify-between items-center w-full rounded bg-[#EEEEEE] min-w-[560px] font-bold">
         <div className="flex gap-2.5 justify-center items-center px-2.5 py-4 w-[140px] max-sm:w-[120px]">

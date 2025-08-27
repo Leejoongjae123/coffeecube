@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import { Button } from "@/components/ui/button";
 import type { TabType } from '../types';
 
 interface TabNavigationProps {
@@ -9,34 +8,45 @@ interface TabNavigationProps {
   onTabChange: (tab: TabType) => void;
 }
 
+interface TabButtonProps {
+  children: React.ReactNode;
+  active?: boolean;
+  onClick?: () => void;
+}
+
+const TabButton = ({ 
+  children, 
+  active = false, 
+  onClick 
+}: TabButtonProps) => (
+  <button
+    onClick={onClick}
+    className={`flex gap-2 items-center px-5 h-[54px] text-lg font-semibold transition-colors max-sm:px-4 max-sm:h-[54px] max-sm:text-sm ${
+      active 
+        ? "text-primary border-b-2 border-primary" 
+        : "text-neutral-600 hover:text-primary/70"
+    }`}
+  >
+    {children}
+  </button>
+);
+
 export default function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   return (
-    <div className="w-full mb-8">
-      <div className="flex border-b border-zinc-100 mt-7">
-        <Button
-          variant="ghost"
-          className={`px-5 h-[54px] rounded-none border-b-2 transition-colors ${
-            activeTab === 'collection' 
-              ? 'border-b-primary text-primary' 
-              : 'border-b-transparent text-gray-600 hover:text-gray-800'
-          }`}
+    <div className="flex flex-col gap-2.5 items-start border-b border-zinc-100 max-sm:gap-2 mb-8 mt-7">
+      <div className="flex items-center w-full max-sm:flex-col max-sm:items-start">
+        <TabButton 
+          active={activeTab === 'collection'}
           onClick={() => onTabChange('collection')}
         >
-          <span className="text-lg font-semibold">수거량 통계</span>
-        </Button>
-        <Button
-          variant="ghost"
-          className={`px-5 h-[54px] rounded-none border-b-2 transition-colors ${
-            activeTab === 'details' 
-              ? 'border-b-primary text-primary' 
-              : 'border-b-transparent text-gray-600 hover:text-gray-800'
-          }`}
+          수거량 통계
+        </TabButton>
+        <TabButton 
+          active={activeTab === 'details'}
           onClick={() => onTabChange('details')}
         >
-          <span className="text-lg font-semibold">통계 상세</span>
-        </Button>
-        {/* 나머지 공간을 채우는 빈 영역 */}
-        <div className="flex-1 border-b border-zinc-100"></div>
+          통계 상세
+        </TabButton>
       </div>
     </div>
   );

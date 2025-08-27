@@ -27,7 +27,7 @@ const TabButton = ({
 
 export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   return (
-    <div className="flex flex-col gap-2.5 items-start border-b border-zinc-100 max-sm:gap-2">
+    <div className="flex flex-col gap-2.5 items-start border-b border-zinc-100 max-sm:gap-2 mb-8 mt-7">
       <div className="flex items-center w-full max-sm:flex-col max-sm:items-start">
         <TabButton 
           active={activeTab === 0}

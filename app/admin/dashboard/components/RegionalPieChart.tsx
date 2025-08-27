@@ -134,7 +134,7 @@ export function RegionalPieChart() {
       {/* Legends */}
       <div className="flex flex-col gap-1 justify-evenly items-start px-3 w-full bg-stone-50 max-sm:px-2 h-full max-w-[110px] ">
         {regions.map((region) => (
-          <div key={region.name} className="flex gap-1 items-center p-1 w-full max-sm:p-0.5 max-sm:text-xs">
+          <div key={region.name} className="flex gap-1 items-center  w-full max-sm:p-0.5 max-sm:text-xs">
             <div className="flex justify-center items-center w-4 h-4">
               <div
                 className="w-[9px] h-[9px] rounded-full border border-white"
