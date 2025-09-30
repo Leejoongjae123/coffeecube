@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,7 +8,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Download } from "lucide-react";
+import { Download } from "lucide-react";
+import Image from "next/image";
 
 interface SortControlsProps {
   sortOrder: string;
@@ -25,8 +26,8 @@ export default function SortControls({
   setSortBy,
   onExport,
 }: SortControlsProps) {
-  const sortOrders = ['오름차순', '내림차순'];
-  const sortByOptions = ['날짜', '로봇 수거량', '방문 수거량', '총합'];
+  const sortOrders = ["오름차순", "내림차순"];
+  const sortByOptions = ["날짜", "로봇 수거량", "방문 수거량", "총합"];
 
   return (
     <div className="flex justify-between items-center mb-6">
@@ -36,14 +37,27 @@ export default function SortControls({
           <span className="text-sm font-medium text-gray-700">정렬:</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 h-[38px]"
+              >
                 {sortBy}
-                <ChevronDown className="h-4 w-4" />
+                <Image 
+                  src="/arrow_down.svg" 
+                  alt="dropdown arrow" 
+                  width={10} 
+                  height={7} 
+                  className="flex-shrink-0"
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {sortByOptions.map((option) => (
-                <DropdownMenuItem key={option} onClick={() => setSortBy(option)}>
+                <DropdownMenuItem
+                  key={option}
+                  onClick={() => setSortBy(option)}
+                >
                   {option}
                 </DropdownMenuItem>
               ))}
@@ -55,14 +69,27 @@ export default function SortControls({
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 h-[38px]"
+              >
                 {sortOrder}
-                <ChevronDown className="h-4 w-4" />
+                <Image 
+                  src="/arrow_down.svg" 
+                  alt="dropdown arrow" 
+                  width={10} 
+                  height={7} 
+                  className="flex-shrink-0"
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {sortOrders.map((order) => (
-                <DropdownMenuItem key={order} onClick={() => setSortOrder(order)}>
+                <DropdownMenuItem
+                  key={order}
+                  onClick={() => setSortOrder(order)}
+                >
                   {order}
                 </DropdownMenuItem>
               ))}
@@ -72,7 +99,11 @@ export default function SortControls({
       </div>
 
       {/* 엑셀 내보내기 버튼 */}
-      <Button onClick={onExport} variant="outline" className="flex items-center gap-2">
+      <Button
+        onClick={onExport}
+        variant="outline"
+        className="flex items-center gap-2"
+      >
         <Download className="h-4 w-4" />
         엑셀 내보내기
       </Button>

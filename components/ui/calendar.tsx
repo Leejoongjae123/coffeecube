@@ -43,14 +43,19 @@ export function Calendar({
   }
 
   // Fill remaining cells to complete weeks
-  while (calendarDays.length < 42) {
+  while (calendarDays.length % 7 !== 0) {
     calendarDays.push(null);
   }
 
   // Split into weeks
   const weeks = [];
   for (let i = 0; i < calendarDays.length; i += 7) {
-    weeks.push(calendarDays.slice(i, i + 7));
+    const week = calendarDays.slice(i, i + 7);
+    // 빈 주 (모든 날짜가 null인 주) 필터링
+    const hasValidDay = week.some((day) => day !== null);
+    if (hasValidDay) {
+      weeks.push(week);
+    }
   }
 
   const navigateMonth = (direction: "prev" | "next") => {
@@ -91,7 +96,7 @@ export function Calendar({
 
   return (
     <div
-      className={`flex flex-col gap-3 items-center px-0 py-3 bg-white rounded-2xl border-solid shadow-sm border-[1.4px] border-stone-300 w-[360px] min-h-[432px] max-md:mx-auto max-md:my-0 max-md:w-full max-md:max-w-[360px] max-sm:px-0 max-sm:py-2 max-sm:w-full max-sm:max-w-xs ${className}`}
+      className={`flex flex-col gap-3 items-center px-0 py-3 bg-white rounded-[16px] border-solid shadow-sm border-[1.4px] border-[#CECECE] w-[360px] min-h-[432px] max-md:mx-auto max-md:my-0 max-md:w-full max-md:max-w-[360px] max-sm:px-0 max-sm:py-2 max-sm:w-full max-sm:max-w-xs ${className}`}
     >
       {/* Header with navigation */}
       <div className="flex justify-between items-center self-stretch py-1 pr-3 pl-4 max-sm:py-1 max-sm:pr-2 max-sm:pl-3">
@@ -168,9 +173,9 @@ export function Calendar({
                     <div
                       className={`text-base tracking-wide leading-6 text-center max-sm:text-sm ${
                         isToday(day)
-                          ? "text-white"
+                          ? "text-white font-bold"
                           : isSelected(day)
-                          ? "text-sky-500"
+                          ? "text-sky-500 font-bold"
                           : "text-zinc-900"
                       }`}
                     >
@@ -187,19 +192,19 @@ export function Calendar({
       {/* Action buttons */}
       <div className="flex gap-2 justify-end items-center self-stretch px-3 py-0 max-sm:px-2 max-sm:py-0">
         <button
-          onClick={onCancel}
-          className="flex flex-col gap-2 justify-center items-center h-10 rounded-md hover:bg-gray-50 px-4"
-        >
-          <div className="text-sm tracking-normal leading-5 text-center text-gray-600 max-sm:text-sm">
-            취소
-          </div>
-        </button>
-        <button
           onClick={onConfirm}
           className="flex flex-col gap-2 justify-center items-center h-10 rounded-md hover:bg-sky-50 px-4"
         >
           <div className="text-sm tracking-normal leading-5 text-center text-sky-500 max-sm:text-sm">
             확인
+          </div>
+        </button>
+        <button
+          onClick={onCancel}
+          className="flex flex-col gap-2 justify-center items-center h-10 rounded-md hover:bg-gray-50 px-4"
+        >
+          <div className="text-sm tracking-normal leading-5 text-center text-gray-600 max-sm:text-sm">
+            취소
           </div>
         </button>
       </div>

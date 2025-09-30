@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,14 +8,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
-import type { SortControlsProps } from '../types';
+import Image from "next/image";
+import type { SortControlsProps } from "../types";
 
 export function SortControls({
   sortOrder,
   statusFilter,
   onSortOrderChange,
-  onStatusFilterChange
+  onStatusFilterChange,
 }: SortControlsProps) {
   return (
     <div className="flex gap-4 items-start self-stretch max-md:flex-col max-md:gap-3">
@@ -30,10 +30,16 @@ export function SortControls({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="flex gap-2.5 items-center px-4 py-2.5 bg-white rounded-md border border-gray-200 text-xs font-medium text-neutral-500 max-sm:justify-between max-sm:w-full"
+                  className="flex gap-2.5 items-center px-4 py-2 h-[38px] bg-white rounded-md border border-gray-200 text-xs font-medium text-neutral-500 max-sm:justify-between max-sm:w-full"
                 >
                   {sortOrder}
-                  <ChevronDown className="h-[10px] w-[10px] text-neutral-500" />
+                  <Image 
+                    src="/arrow_down.svg" 
+                    alt="dropdown arrow" 
+                    width={10} 
+                    height={7} 
+                    className="flex-shrink-0"
+                  />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-32">
@@ -51,10 +57,16 @@ export function SortControls({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="flex gap-2.5 items-center px-4 py-2.5 bg-white rounded-md border border-gray-200 text-xs font-medium text-neutral-500 max-sm:justify-between max-sm:w-full"
+                  className="flex gap-2.5 items-center px-4 py-2 h-[38px] bg-white rounded-md border border-gray-200 text-xs font-medium text-neutral-500 max-sm:justify-between max-sm:w-full"
                 >
                   {statusFilter}
-                  <ChevronDown className="h-[10px] w-[10px] text-neutral-500" />
+                  <Image 
+                    src="/arrow_down.svg" 
+                    alt="dropdown arrow" 
+                    width={10} 
+                    height={7} 
+                    className="flex-shrink-0"
+                  />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-32">
@@ -64,10 +76,14 @@ export function SortControls({
                 <DropdownMenuItem onClick={() => onStatusFilterChange("정상")}>
                   정상
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onStatusFilterChange("수거 대상")}>
+                <DropdownMenuItem
+                  onClick={() => onStatusFilterChange("수거 대상")}
+                >
                   수거 대상
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onStatusFilterChange("장애 발생")}>
+                <DropdownMenuItem
+                  onClick={() => onStatusFilterChange("장애 발생")}
+                >
                   장애 발생
                 </DropdownMenuItem>
               </DropdownMenuContent>

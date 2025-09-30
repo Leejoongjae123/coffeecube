@@ -4,13 +4,23 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
+import ErrorModal from "./components/ErrorModal";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorModalTitle, setErrorModalTitle] = useState("");
+  const [errorModalMessage, setErrorModalMessage] = useState("");
   const router = useRouter();
+
+  const showModal = (title: string, message: string) => {
+    setErrorModalTitle(title);
+    setErrorModalMessage(message);
+    setShowErrorModal(true);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,14 +29,53 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
+      // 1. 로그인 시도
+      const { data: authData, error: authError } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+      if (authError) {
+        showModal("로그인 실패", "이메일 또는 비밀번호가 올바르지 않습니다.");
+        return;
+      }
+
+      if (!authData.user) {
+        showModal("로그인 실패", "사용자 정보를 가져올 수 없습니다.");
+        return;
+      }
+
+      // 2. profiles 테이블에서 role 확인
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", authData.user.id)
+        .single();
+
+      if (profileError) {
+        showModal("로그인 실패", "사용자 프로필 정보를 가져올 수 없습니다.");
+        return;
+      }
+
+      // 3. admin 역할 확인
+      if (!profileData || profileData.role !== "admin") {
+        // 로그아웃 처리
+        await supabase.auth.signOut();
+        showModal(
+          "접근 권한 없음",
+          "관리자 권한이 필요합니다. 관리자에게 문의하세요."
+        );
+        return;
+      }
+
+      // 4. admin 권한이 확인되면 대시보드로 이동
       router.push("/admin/dashboard");
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+    } catch {
+      showModal(
+        "로그인 실패",
+        "로그인 중 오류가 발생했습니다. 다시 시도해주세요."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -36,11 +85,21 @@ export default function LoginPage() {
     <div className="flex relative justify-center items-start bg-white h-screen w-full max-md:flex-col">
       {/* Left Section */}
       <div className="flex relative flex-col justify-between items-start px-20 pt-20 pb-36 h-full bg-slate-900 w-[65%] max-md:p-10 max-md:w-full max-md:h-[400px] max-sm:p-5">
-        <Image alt="bg_login" src="https://cqihatirfrohbypgdefv.supabase.co/storage/v1/object/public/images/bg_login.webp" fill></Image>
+        <Image
+          alt="bg_login"
+          src="https://cqihatirfrohbypgdefv.supabase.co/storage/v1/object/public/images/bg_login.webp"
+          fill
+        ></Image>
         <div className="relative h-[51px] w-[219px] max-md:h-[35px] max-md:w-[150px] max-sm:h-7 max-sm:w-[120px]">
-          <Image className="" src="https://cqihatirfrohbypgdefv.supabase.co/storage/v1/object/public/images/logo.svg" alt="logo" width={219} height={51}/>
+          <Image
+            className=""
+            src="https://cqihatirfrohbypgdefv.supabase.co/storage/v1/object/public/images/logo.svg"
+            alt="logo"
+            width={219}
+            height={51}
+          />
         </div>
-        
+
         <div className="flex relative flex-col gap-5 items-start self-stretch">
           <div className="relative self-stretch text-6xl font-bold text-right text-white leading-[84px] max-md:text-4xl max-md:text-center max-sm:text-3xl">
             더 많은 곳에서의
@@ -61,8 +120,11 @@ export default function LoginPage() {
               관리자 로그인
             </div>
           </div>
-          
-          <form onSubmit={handleLogin} className="flex relative flex-col gap-8 items-start self-stretch">
+
+          <form
+            onSubmit={handleLogin}
+            className="flex relative flex-col gap-8 items-start self-stretch"
+          >
             <div className="flex relative flex-col gap-5 items-start self-stretch">
               <div className="flex relative flex-col gap-2.5 justify-center items-start self-stretch p-6 bg-primary rounded-xl border border-blue-300 border-solid max-sm:p-5">
                 <input
@@ -85,11 +147,11 @@ export default function LoginPage() {
                 />
               </div>
             </div>
-            
+
             {error && <p className="text-sm text-red-200">{error}</p>}
-            
+
             <div className="flex relative flex-col gap-8 items-center self-stretch">
-              <button 
+              <button
                 type="submit"
                 disabled={isLoading}
                 className="flex relative flex-col gap-2.5 justify-center items-center self-stretch p-6 bg-white rounded-xl cursor-pointer hover:bg-gray-100 transition-colors max-sm:p-5"
@@ -107,6 +169,13 @@ export default function LoginPage() {
           </form>
         </div>
       </div>
+
+      <ErrorModal
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+        title={errorModalTitle}
+        message={errorModalMessage}
+      />
     </div>
   );
 }

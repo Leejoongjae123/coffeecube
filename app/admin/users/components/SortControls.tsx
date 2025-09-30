@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDownIcon } from "lucide-react";
+import Image from "next/image";
 import { SortControlsProps } from "../types";
 
 export default function SortControls({
@@ -22,15 +22,19 @@ export default function SortControls({
   return (
     <div className="flex flex-col mt-5 w-full text-xs max-md:max-w-full">
       <div className="flex gap-5 items-center self-end whitespace-nowrap text-neutral-500">
-        <div className="self-stretch my-auto font-bold">
-          정렬기준
-        </div>
+        <div className="self-stretch my-auto font-bold">정렬기준</div>
         <div className="flex gap-2 items-center self-stretch my-auto font-medium">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex gap-2.5 items-center px-4 py-2.5 rounded-md border border-solid cursor-pointer transition-colors bg-white border-gray-200">
+              <div className="flex gap-2.5 items-center px-4 py-2 h-[38px] rounded-md border border-solid cursor-pointer transition-colors bg-white border-gray-200">
                 <div className="self-stretch my-auto">{sortOrder}</div>
-                <ChevronDownIcon className="w-2.5 h-2.5" />
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
@@ -38,7 +42,9 @@ export default function SortControls({
                 <DropdownMenuItem
                   key={order}
                   onClick={() => setSortOrder(order)}
-                  className={sortOrder === order ? "text-sky-500 font-semibold" : ""}
+                  className={
+                    sortOrder === order ? "text-sky-500 font-semibold" : ""
+                  }
                 >
                   {order}
                 </DropdownMenuItem>
@@ -47,9 +53,15 @@ export default function SortControls({
           </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex gap-2.5 items-center px-4 py-2.5 rounded-md border border-solid cursor-pointer transition-colors bg-white border-gray-200">
+              <div className="flex gap-2.5 items-center px-4 py-2 h-[38px] rounded-md border border-solid cursor-pointer transition-colors bg-white border-gray-200">
                 <div className="self-stretch my-auto">{sortBy}</div>
-                <ChevronDownIcon className="w-2.5 h-2.5" />
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
@@ -57,7 +69,9 @@ export default function SortControls({
                 <DropdownMenuItem
                   key={option}
                   onClick={() => setSortBy(option)}
-                  className={sortBy === option ? "text-sky-500 font-semibold" : ""}
+                  className={
+                    sortBy === option ? "text-sky-500 font-semibold" : ""
+                  }
                 >
                   {option}
                 </DropdownMenuItem>

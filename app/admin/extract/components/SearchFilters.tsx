@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,9 +8,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Checkbox } from "@/components/ui/checkbox";
+import { AlwaysVisibleCheckbox } from "@/components/ui/always-visible-checkbox";
 import { Label } from "@/components/ui/label";
-import { ChevronDown, Search, RotateCcw } from "lucide-react";
+import { Search, RotateCcw } from "lucide-react";
+import Image from "next/image";
 
 interface SearchFiltersProps {
   period: string;
@@ -53,12 +54,35 @@ export default function SearchFilters({
   onSearch,
   onReset,
 }: SearchFiltersProps) {
-  const periods = ['일간', '주간', '월간', '연간'];
-  const years = ['2023', '2024', '2025'];
-  const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-  const regionsLevel1 = ['전체', '서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종'];
-  const regionsLevel2 = ['군', '시', '구'];
-  const regionsLevel3 = ['구', '동', '면'];
+  const periods = ["일간", "주간", "월간", "연간"];
+  const years = ["2023", "2024", "2025"];
+  const months = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+  ];
+  const regionsLevel1 = [
+    "전체",
+    "서울",
+    "부산",
+    "대구",
+    "인천",
+    "광주",
+    "대전",
+    "울산",
+    "세종",
+  ];
+  const regionsLevel2 = ["군", "시", "구"];
+  const regionsLevel3 = ["구", "동", "면"];
 
   return (
     <div className="w-full p-6 bg-white rounded-lg border border-gray-200 mb-6">
@@ -70,9 +94,18 @@ export default function SearchFilters({
           </Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-[38px]"
+              >
                 {period}
-                <ChevronDown className="h-4 w-4" />
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -92,9 +125,18 @@ export default function SearchFilters({
           </Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-[38px]"
+              >
                 {year}년
-                <ChevronDown className="h-4 w-4" />
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -114,9 +156,18 @@ export default function SearchFilters({
           </Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-[38px]"
+              >
                 {month}월
-                <ChevronDown className="h-4 w-4" />
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -131,19 +182,34 @@ export default function SearchFilters({
 
         {/* 지역 레벨 1 */}
         <div className="space-y-2">
-          <Label htmlFor="region1" className="text-sm font-medium text-gray-700">
+          <Label
+            htmlFor="region1"
+            className="text-sm font-medium text-gray-700"
+          >
             지역(시/도)
           </Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-[38px]"
+              >
                 {regionLevel1}
-                <ChevronDown className="h-4 w-4" />
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {regionsLevel1.map((region) => (
-                <DropdownMenuItem key={region} onClick={() => setRegionLevel1(region)}>
+                <DropdownMenuItem
+                  key={region}
+                  onClick={() => setRegionLevel1(region)}
+                >
                   {region}
                 </DropdownMenuItem>
               ))}
@@ -153,19 +219,34 @@ export default function SearchFilters({
 
         {/* 지역 레벨 2 */}
         <div className="space-y-2">
-          <Label htmlFor="region2" className="text-sm font-medium text-gray-700">
+          <Label
+            htmlFor="region2"
+            className="text-sm font-medium text-gray-700"
+          >
             지역(군/시/구)
           </Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-[38px]"
+              >
                 {regionLevel2}
-                <ChevronDown className="h-4 w-4" />
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {regionsLevel2.map((region) => (
-                <DropdownMenuItem key={region} onClick={() => setRegionLevel2(region)}>
+                <DropdownMenuItem
+                  key={region}
+                  onClick={() => setRegionLevel2(region)}
+                >
                   {region}
                 </DropdownMenuItem>
               ))}
@@ -175,19 +256,34 @@ export default function SearchFilters({
 
         {/* 지역 레벨 3 */}
         <div className="space-y-2">
-          <Label htmlFor="region3" className="text-sm font-medium text-gray-700">
+          <Label
+            htmlFor="region3"
+            className="text-sm font-medium text-gray-700"
+          >
             지역(구/동/면)
           </Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
+              <Button
+                variant="outline"
+                className="w-full justify-between h-[38px]"
+              >
                 {regionLevel3}
-                <ChevronDown className="h-4 w-4" />
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {regionsLevel3.map((region) => (
-                <DropdownMenuItem key={region} onClick={() => setRegionLevel3(region)}>
+                <DropdownMenuItem
+                  key={region}
+                  onClick={() => setRegionLevel3(region)}
+                >
                   {region}
                 </DropdownMenuItem>
               ))}
@@ -199,22 +295,32 @@ export default function SearchFilters({
       {/* 체크박스 섹션 */}
       <div className="flex gap-6 mb-6">
         <div className="flex items-center space-x-2">
-          <Checkbox
+          <AlwaysVisibleCheckbox
             id="robot"
             checked={robotChecked}
             onCheckedChange={(checked) => setRobotChecked(!!checked)}
           />
-          <Label htmlFor="robot" className="text-sm font-medium text-gray-700">
+          <Label
+            htmlFor="robot"
+            className={`text-sm font-bold leading-5 ${
+              robotChecked ? "text-primary" : "text-[#909092]"
+            }`}
+          >
             로봇 수거량
           </Label>
         </div>
         <div className="flex items-center space-x-2">
-          <Checkbox
+          <AlwaysVisibleCheckbox
             id="visit"
             checked={visitChecked}
             onCheckedChange={(checked) => setVisitChecked(!!checked)}
           />
-          <Label htmlFor="visit" className="text-sm font-medium text-gray-700">
+          <Label
+            htmlFor="visit"
+            className={`text-sm font-bold leading-5 ${
+              visitChecked ? "text-primary" : "text-[#909092]"
+            }`}
+          >
             방문 수거량
           </Label>
         </div>
@@ -222,13 +328,17 @@ export default function SearchFilters({
 
       {/* 버튼 섹션 */}
       <div className="flex gap-3">
-        <Button onClick={onSearch} className="flex items-center gap-2">
+        <Button onClick={onSearch} className="flex items-center gap-2 h-[43px]">
           <Search className="h-4 w-4" />
-          검색
+          <span className="text-[16px] font-semibold text-white">검색</span>
         </Button>
-        <Button onClick={onReset} variant="outline" className="flex items-center gap-2">
+        <Button
+          onClick={onReset}
+          variant="outline"
+          className="flex items-center gap-2 h-[43px]"
+        >
           <RotateCcw className="h-4 w-4" />
-          초기화
+          <span className="text-[16px] font-semibold text-sky-500">초기화</span>
         </Button>
       </div>
     </div>

@@ -51,13 +51,13 @@ export default function TabNavigation({ activeTab, onTabChange }: TabNavigationP
           active={activeTab === 'visit-register'}
           onClick={() => onTabChange('visit-register')}
         >
-          방문수거 등록·수정
+          방문수거 등록
         </TabButton>
         <TabButton 
           active={activeTab === 'visit-schedule'}
           onClick={() => onTabChange('visit-schedule')}
         >
-          방문수거 일정조회·수거량 입력
+          방문수거 검색
         </TabButton>
       </div>
     </div>

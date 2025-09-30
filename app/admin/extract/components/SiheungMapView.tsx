@@ -130,7 +130,7 @@ export default function SiheungMapView({
             <div className="absolute left-[262px] top-[319px] w-[34px] text-xs text-zinc-950">화정동</div>
             <div className="absolute left-[89px] top-[237px] w-[34px] text-zinc-950">월곶동</div>
             <div className="absolute left-[150px] top-[363px] w-[34px] text-xs text-zinc-950">거모동</div>
-            <div className="absolute left-[101px] top-[350px] w-[34px] text-xs text-zinc-950">죽을동</div>
+            <div className="absolute left-[101px] top-[350px] w-[34px] text-xs text-zinc-950">죽율동</div>
             <div className="absolute left-0 top-[371px] w-[34px] text-xs text-zinc-950">정왕동</div>
           </div>
 
