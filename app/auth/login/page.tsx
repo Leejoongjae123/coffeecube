@@ -5,6 +5,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import ErrorModal from "./components/ErrorModal";
+import dynamic from "next/dynamic";
+const BarcodeImage = dynamic(() => import("./components/BarcodeImage"), {
+  ssr: false,
+});
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -167,6 +171,10 @@ export default function LoginPage() {
               </div>
             </div>
           </form>
+          {/* 로그인 섹션 하단에 바코드 미리보기 */}
+          <div className="w-full">
+            <BarcodeImage />
+          </div>
         </div>
       </div>
 

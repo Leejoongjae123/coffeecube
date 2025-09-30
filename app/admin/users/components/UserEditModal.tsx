@@ -29,7 +29,7 @@ const FormField = ({
   editable?: boolean;
   width?: string;
   className?: string;
-  onChange?: (value: string) => void;
+  onChange?: (_v: string) => void;
 }) => (
   <div className="flex items-center w-full h-11 max-sm:flex-col max-sm:gap-2 max-sm:items-start max-sm:h-auto">
     <div className="text-base leading-6 text-neutral-700 w-[120px] max-sm:w-full">
@@ -220,39 +220,20 @@ export default function UserEditModal({
     setFormData((prev) => ({ ...prev, phone: value }));
   };
 
-  // SHA256 해싱 함수
-  const sha256 = async (text: string): Promise<string> => {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(text);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-  };
+  // (제거) 해시 사용하지 않음: 바코드는 ID + 탭 + 복호화된 비밀번호 형식으로 사용
 
-  // 바코드 데이터 생성 useEffect
+  // 바코드 데이터 생성: ID + 탭 + 복호화된 비밀번호
   React.useEffect(() => {
-    const generateBarcodeData = async () => {
-      if (!formData.userId) {
+    const generateBarcodeData = () => {
+      if (!formData.userId || !formData.decryptedPassword) {
         setBarcodeData("");
         return;
       }
 
       try {
-        // 고정 salt 사용
-        const salt = "coffee_cube_salt_2024";
-
-        // decrypt된 비밀번호 우선 사용, 없으면 기본값
-        const password = formData.decryptedPassword || "defaultpw";
-
-        // SHA256 해싱
-        const combinedData = `${formData.userId}${password}${salt}`;
-        const hashedData = await sha256(combinedData);
-
-        // 바코드 데이터에 사용자ID와 해시값 조합
-        setBarcodeData(`${formData.userId}:${hashedData.substring(0, 16)}`);
+        setBarcodeData(`${formData.userId}\t${formData.decryptedPassword}`);
       } catch {
-        // 에러 발생 시 기본값 설정
-        setBarcodeData(`${formData.userId}:default_hash`);
+        setBarcodeData("");
       }
     };
 
@@ -264,29 +245,37 @@ export default function UserEditModal({
   };
 
   const BarcodeComponent = () => {
+    const [imgError, setImgError] = React.useState(false);
+
     try {
+      const apiSrc = userData?.originalId
+        ? `/api/admin/users/${userData.originalId}/barcode?ts=${Date.now()}`
+        : null;
+
       return (
-        <div className="flex flex-col gap-2 items-center">
-          {userData?.originalId ? (
+        <div className="flex flex-row gap-3 items-center">
+          {barcodeData ? (
+            <Barcode
+              value={barcodeData}
+              width={2}
+              height={50}
+              fontSize={12}
+              background="white"
+              lineColor="black"
+            />
+          ) : null}
+
+          {apiSrc && !imgError ? (
             <Image
-              src={`/api/admin/users/${userData.originalId}/barcode`}
+              src={apiSrc}
               alt="user-barcode"
               width={400}
               height={100}
+              unoptimized
+              onError={() => setImgError(true)}
               className="w-auto h-[80px] bg-white border border-gray-200"
             />
-          ) : (
-            barcodeData && (
-              <Barcode
-                value={barcodeData}
-                width={2}
-                height={50}
-                fontSize={12}
-                background="white"
-                lineColor="black"
-              />
-            )
-          )}
+          ) : null}
         </div>
       );
     } catch {

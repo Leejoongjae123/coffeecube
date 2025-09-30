@@ -22,7 +22,7 @@ export async function GET() {
 
     const { data: profile, error: profileError } = await supabase
       .from("profiles")
-      .select("username, encrypted_password")
+      .select("email, encrypted_password")
       .eq("id", user.id)
       .single();
 
@@ -30,18 +30,18 @@ export async function GET() {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
 
-    const username = (profile as any).username as string | null;
+    const email = (profile as any).email as string | null;
     const encrypted = (profile as any).encrypted_password as string | null;
     const password = encrypted ? decryptPassword(encrypted) : "";
 
-    if (!username || !password) {
+    if (!email || !password) {
       return NextResponse.json(
         { error: "Required profile data missing" },
         { status: 400 }
       );
     }
 
-    const barcodeData = `${username}\t${password}`;
+    const barcodeData = `${email}\t${password}`;
 
     const width = 400;
     const height = 100;

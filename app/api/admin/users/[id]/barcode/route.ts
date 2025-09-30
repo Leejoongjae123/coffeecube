@@ -37,7 +37,7 @@ export async function GET(
     const admin = createAdminClient();
     const { data: profile, error: profErr } = await admin
       .from("profiles")
-      .select("username, encrypted_password")
+      .select("email, encrypted_password")
       .eq("id", id)
       .single();
 
@@ -45,19 +45,19 @@ export async function GET(
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
 
-    const username = (profile as any).username as string | null;
+    const email = (profile as any).email as string | null;
     const encrypted = (profile as any).encrypted_password as string | null;
     const password = encrypted ? decryptPassword(encrypted) : "";
 
-    if (!username || !password) {
+    if (!email || !password) {
       return NextResponse.json(
         { error: "Required profile data missing" },
         { status: 400 }
       );
     }
 
-    // 바코드 데이터: 아이디 + 탭 + 비밀번호
-    const barcodeData = `${username}\t${password}`;
+    // 바코드 데이터: 이메일 + 탭 + 비밀번호
+    const barcodeData = `${email}\t${password}`;
 
     // 바코드 전용 캔버스 생성
     const width = 400;
