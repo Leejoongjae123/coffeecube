@@ -101,3 +101,16 @@ export interface Top3ChartProps {
   period: PeriodOption;
   method: CollectionMethod;
 }
+
+export interface SortControlsProps {
+  sortOrder: string;
+  statusFilter: string;
+  onSortOrderChange: (order: string) => void;
+  onStatusFilterChange: (status: string) => void;
+}
+
+export interface TabButtonProps {
+  children: React.ReactNode;
+  active?: boolean;
+  onClick: () => void;
+}

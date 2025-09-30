@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient();
 
     // input_records (비니봇)
-    let robotPromise: Promise<any> = Promise.resolve({ data: [], error: null });
+    let robotPromise: any = Promise.resolve({ data: [], error: null });
     if (method === "robot" || method === "both") {
       robotPromise = supabase
         .from("input_records")
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     }
 
     // extract_history (방문수거)
-    let visitPromise: Promise<any> = Promise.resolve({ data: [], error: null });
+    let visitPromise: any = Promise.resolve({ data: [], error: null });
     if (method === "visit" || method === "both") {
       visitPromise = supabase
         .from("extract_history")

@@ -96,7 +96,10 @@ export async function GET(request: NextRequest) {
     }
 
     // 비니봇 수거량 데이터 가져오기 (input_records)
-    let robotCollectionPromise = Promise.resolve({ data: [], error: null });
+    let robotCollectionPromise: any = Promise.resolve({
+      data: [],
+      error: null,
+    });
 
     if (params.robotChecked === "true") {
       let query = supabase.from("input_records").select(
@@ -121,7 +124,10 @@ export async function GET(request: NextRequest) {
     }
 
     // 방문 수거량 데이터 가져오기 (extract_history)
-    let visitCollectionPromise = Promise.resolve({ data: [], error: null });
+    let visitCollectionPromise: any = Promise.resolve({
+      data: [],
+      error: null,
+    });
 
     if (params.visitChecked === "true") {
       let query = supabase.from("extract_history").select(

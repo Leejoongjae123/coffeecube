@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
   }
 
   // 비니봇 개별 레코드
-  let robotPromise = Promise.resolve({ data: [], error: null as any });
+  let robotPromise: any = Promise.resolve({ data: [], error: null as any });
   if (params.robotChecked === "true") {
     let q = supabase.from("input_records").select(
       `
@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
   }
 
   // 방문수거 개별 레코드
-  let visitPromise = Promise.resolve({ data: [], error: null as any });
+  let visitPromise: any = Promise.resolve({ data: [], error: null as any });
   if (params.visitChecked === "true") {
     let q = supabase.from("extract_history").select(
       `

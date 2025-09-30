@@ -6,11 +6,16 @@ import { MonthlyChart } from "@/app/admin/dashboard/components/MonthlyChart";
 import { WeeklyHeatmap } from "@/app/admin/dashboard/components/WeeklyHeatmap";
 import { RegionalPieChart } from "@/app/admin/dashboard/components/RegionalPieChart";
 import { Top3Chart } from "@/app/admin/dashboard/components/Top3Chart";
-import type { WeeklyData } from "@/app/admin/dashboard/types";
+import type {
+  WeeklyData,
+  PeriodOption,
+  CollectionMethod,
+} from "@/app/admin/dashboard/types";
 
 export function CollectionStatistics() {
-  const [selectedPeriod, setSelectedPeriod] = useState("월별");
-  const [selectedMethod, setSelectedMethod] = useState("비니봇");
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodOption>("월별");
+  const [selectedMethod, setSelectedMethod] =
+    useState<CollectionMethod>("비니봇");
   const [weeklyData, setWeeklyData] = useState<WeeklyData[]>([]);
 
   // Mock 데이터 생성 함수 (개발용)
@@ -124,8 +129,12 @@ export function CollectionStatistics() {
             <div className="text-3xl font-bold text-neutral-700 max-md:text-2xl max-sm:text-xl">
               2025년 월별 수거량
             </div>
-            <MonthlyChart />
-            <WeeklyHeatmap data={weeklyData} year={2025} />
+            <MonthlyChart period={selectedPeriod} method={selectedMethod} />
+            <WeeklyHeatmap
+              data={weeklyData}
+              year={2025}
+              period={selectedPeriod}
+            />
           </div>
 
           {/* Right Side Charts */}
@@ -135,7 +144,10 @@ export function CollectionStatistics() {
               <div className="text-3xl font-bold text-neutral-700 max-md:text-2xl max-sm:text-xl">
                 2025년 지역별 통계
               </div>
-              <RegionalPieChart />
+              <RegionalPieChart
+                period={selectedPeriod}
+                method={selectedMethod}
+              />
             </div>
 
             {/* Top 3 Chart */}
@@ -143,7 +155,7 @@ export function CollectionStatistics() {
               <div className="text-3xl font-bold text-neutral-700 max-md:text-2xl max-sm:text-xl">
                 2025년 수거량 Top3
               </div>
-              <Top3Chart />
+              <Top3Chart period={selectedPeriod} method={selectedMethod} />
             </div>
           </div>
         </div>

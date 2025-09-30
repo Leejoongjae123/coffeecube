@@ -61,25 +61,23 @@ export async function GET(request: NextRequest) {
   const dateRangeStart = period === "daily" ? startDateDaily : startDateMonthly;
   const dateRangeEnd = endDateMonthly;
 
-  let robotPromise: Promise<any> = Promise.resolve({ data: [], error: null });
-  if (needRobot) {
-    robotPromise = supabase
-      .from("input_records")
-      .select("input_date,input_amount")
-      .gte("input_date", dateRangeStart)
-      .lte("input_date", dateRangeEnd)
-      .order("input_date", { ascending: true });
-  }
+  const robotPromise: any = needRobot
+    ? supabase
+        .from("input_records")
+        .select("input_date,input_amount")
+        .gte("input_date", dateRangeStart)
+        .lte("input_date", dateRangeEnd)
+        .order("input_date", { ascending: true })
+    : Promise.resolve({ data: [], error: null });
 
-  let visitPromise: Promise<any> = Promise.resolve({ data: [], error: null });
-  if (needVisit) {
-    visitPromise = supabase
-      .from("extract_history")
-      .select("visit_date,collection_amount")
-      .gte("visit_date", dateRangeStart)
-      .lte("visit_date", dateRangeEnd)
-      .order("visit_date", { ascending: true });
-  }
+  const visitPromise: any = needVisit
+    ? supabase
+        .from("extract_history")
+        .select("visit_date,collection_amount")
+        .gte("visit_date", dateRangeStart)
+        .lte("visit_date", dateRangeEnd)
+        .order("visit_date", { ascending: true })
+    : Promise.resolve({ data: [], error: null });
 
   const [robotRes, visitRes] = await Promise.all([robotPromise, visitPromise]);
 
