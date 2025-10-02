@@ -43,15 +43,15 @@ function HeaderContent() {
       data-name="header"
     >
       <div className="flex flex-wrap gap-5 justify-between w-full px-10 max-md:px-5">
-        <Link href="/admin/dashboard">
+        
           <Image
             src="/logo2.svg"
-            className="object-cover shrink-0 max-w-full "
+            className="object-contain shrink-0 max-w-full "
             width={138}
             height={40}
             alt="Logo"
           />
-        </Link>
+        
         <div
           className="flex flex-wrap gap-10 items-center text-xl tracking-tight min-h-[52px] text-neutral-600"
           data-name="menu"

@@ -67,17 +67,5 @@ export default function BarcodeImage() {
     );
   }
 
-  if (!src) return null;
-
-  return (
-    <div className="w-full flex flex-col items-center space-y-3">
-      <div className="w-full bg-white rounded-lg relative aspect-[4/1] flex items-center justify-center p-2">
-        <img
-          src={src}
-          alt="로그인 바코드"
-          className="max-h-full object-contain"
-        />
-      </div>
-    </div>
-  );
+  
 }
