@@ -52,6 +52,7 @@ export type TabType =
   | "robot-search"
   | "visit-register"
   | "visit-schedule"
+  | "button-management"
   | "siheung-map";
 
 // 지도 관련 타입
@@ -150,4 +151,53 @@ export interface VisitEditRequest {
   address: string;
   visitDate: string;
   collectionAmount: number;
+}
+
+// 버튼 명령어 타입
+export interface ButtonCommand {
+  id: number;
+  send: string;
+  receive: string;
+  duration: number;
+  sequence_order: number;
+}
+
+// 버튼 관련 타입
+export interface ButtonData {
+  id: string;
+  button_no: number;
+  name: string;
+  commands: ButtonCommand[];
+  created_at: string;
+  updated_at: string;
+}
+
+// 버튼 검색 필터 타입
+export interface ButtonSearchFilters {
+  searchCondition: "all" | "name";
+  searchQuery: string;
+}
+
+// 버튼 API 응답 타입
+export interface ButtonApiResponse {
+  success: boolean;
+  message: string;
+  data?: ButtonData[];
+}
+
+// 버튼 생성/수정 요청 타입
+export interface ButtonRequest {
+  name: string;
+  commands: Array<{
+    send: string;
+    receive: string;
+    duration: number;
+  }>;
+}
+
+// 버튼 생성/수정 API 응답 타입
+export interface ButtonMutationResponse {
+  success: boolean;
+  message: string;
+  data?: ButtonData;
 }

@@ -43,15 +43,14 @@ function HeaderContent() {
       data-name="header"
     >
       <div className="flex flex-wrap gap-5 justify-between w-full px-10 max-md:px-5">
-        
-          <Image
-            src="/logo2.svg"
-            className="object-contain shrink-0 max-w-full "
-            width={138}
-            height={40}
-            alt="Logo"
-          />
-        
+        <Image
+          src="/logo2.svg"
+          className="object-contain shrink-0 max-w-full "
+          width={138}
+          height={40}
+          alt="Logo"
+        />
+
         <div
           className="flex flex-wrap gap-10 items-center text-xl tracking-tight min-h-[52px] text-neutral-600"
           data-name="menu"
@@ -69,7 +68,7 @@ function HeaderContent() {
             </Link>
           ))}
         </div>
-        <div 
+        <div
           onClick={handleLogout}
           className="flex gap-3 items-center px-5 py-3 my-auto text-lg tracking-tight text-white whitespace-nowrap rounded-lg border border-solid bg-neutral-400 border-neutral-400 cursor-pointer hover:bg-neutral-500 transition-colors"
         >
@@ -89,7 +88,11 @@ function HeaderContent() {
 
 function Header() {
   return (
-    <React.Suspense fallback={<div className="w-full h-[68px] bg-white shadow-[0px_3px_4px_rgba(0,0,0,0.12)]" />}>
+    <React.Suspense
+      fallback={
+        <div className="w-full h-[68px] bg-white shadow-[0px_3px_4px_rgba(0,0,0,0.12)]" />
+      }
+    >
       <HeaderContent />
     </React.Suspense>
   );
