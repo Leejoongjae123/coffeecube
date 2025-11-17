@@ -7,6 +7,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const searchCondition = searchParams.get("searchCondition");
     const searchQuery = searchParams.get("searchQuery");
+    const buttonType = searchParams.get("buttonType");
 
     let query = supabase
       .from("buttons")
@@ -23,6 +24,11 @@ export async function GET(request: Request) {
       `
       )
       .order("button_no", { ascending: true });
+
+    // 버튼 타입 필터 적용
+    if (buttonType && buttonType !== "all") {
+      query = query.eq("button_type", buttonType);
+    }
 
     // 검색 조건 적용
     if (searchQuery && searchCondition) {
@@ -62,6 +68,7 @@ export async function GET(request: Request) {
       id: item.button_no.toString(),
       button_no: item.button_no,
       name: item.name,
+      button_type: item.button_type,
       commands: (item.button_commands || []).sort(
         (a: any, b: any) => a.sequence_order - b.sequence_order
       ),
@@ -88,11 +95,12 @@ export async function POST(request: Request) {
   try {
     const supabase = await createClient();
     const body = await request.json();
-    const { button_no, name, commands } = body;
+    const { button_no, name, button_type, commands } = body;
 
     // 필드 검증
     if (
       !name ||
+      !button_type ||
       !commands ||
       !Array.isArray(commands) ||
       commands.length === 0
@@ -100,7 +108,18 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: "버튼 이름과 최소 1개의 명령어를 입력해주세요.",
+          message: "버튼 이름, 버튼 타입과 최소 1개의 명령어를 입력해주세요.",
+        },
+        { status: 400 }
+      );
+    }
+
+    // button_type 검증
+    if (button_type !== "client" && button_type !== "admin") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "버튼 타입은 'client' 또는 'admin'이어야 합니다.",
         },
         { status: 400 }
       );
@@ -126,7 +145,7 @@ export async function POST(request: Request) {
     }
 
     // 버튼 생성
-    const insertData: any = { name };
+    const insertData: any = { name, button_type };
     if (button_no) {
       insertData.button_no = button_no;
     }
@@ -177,6 +196,7 @@ export async function POST(request: Request) {
         id: buttonData.button_no.toString(),
         button_no: buttonData.button_no,
         name: buttonData.name,
+        button_type: buttonData.button_type,
         commands: commandsData,
         created_at: buttonData.created_at,
         updated_at: buttonData.updated_at,

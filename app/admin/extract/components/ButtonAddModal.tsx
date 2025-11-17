@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import { X, Edit3, Loader2, GripVertical, Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/hooks/useToast";
-import type { ButtonData, ButtonCommand } from "../types";
+import type { ButtonData, ButtonCommand, ButtonType } from "../types";
 
 interface ButtonAddModalProps {
   isOpen: boolean;
@@ -74,21 +75,27 @@ export default function ButtonAddModal({
   const { success, error } = useToast();
   const [buttonNo, setButtonNo] = React.useState<string>("1");
   const [name, setName] = React.useState("");
+  const [buttonType, setButtonType] = React.useState<ButtonType>("client");
   const [commands, setCommands] = React.useState<ButtonCommand[]>([
     { id: 0, send: "", receive: "", duration: 0, sequence_order: 0 },
   ]);
-  const [saving, setSaving] = React.useState(false);
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
   const [draggedIndex, setDraggedIndex] = React.useState<number | null>(null);
+  const [isButtonTypeDropdownOpen, setIsButtonTypeDropdownOpen] =
+    React.useState(false);
 
   // buttonData가 변경될 때마다 formData 업데이트
   React.useEffect(() => {
     if (buttonData) {
       setButtonNo(buttonData.button_no.toString());
       setName(buttonData.name);
+      setButtonType(buttonData.button_type);
       setCommands(buttonData.commands || []);
     } else {
       setButtonNo("1");
       setName("");
+      setButtonType("client");
       setCommands([
         { id: 0, send: "", receive: "", duration: 0, sequence_order: 0 },
       ]);
@@ -167,7 +174,7 @@ export default function ButtonAddModal({
     }
 
     try {
-      setSaving(true);
+      setIsSaving(true);
 
       const url = buttonData
         ? `/api/admin/buttons/${buttonData.id}`
@@ -183,6 +190,7 @@ export default function ButtonAddModal({
         body: JSON.stringify({
           button_no: parseInt(buttonNo),
           name,
+          button_type: buttonType,
           commands: commands.map((cmd, index) => ({
             send: cmd.send,
             receive: cmd.receive,
@@ -214,7 +222,7 @@ export default function ButtonAddModal({
     } catch {
       error("서버 오류가 발생했습니다.");
     } finally {
-      setSaving(false);
+      setIsSaving(false);
     }
   };
 
@@ -226,7 +234,7 @@ export default function ButtonAddModal({
     }
 
     try {
-      setSaving(true);
+      setIsDeleting(true);
       const response = await fetch(`/api/admin/buttons/${buttonData.id}`, {
         method: "DELETE",
       });
@@ -243,13 +251,14 @@ export default function ButtonAddModal({
     } catch {
       error("서버 오류가 발생했습니다.");
     } finally {
-      setSaving(false);
+      setIsDeleting(false);
     }
   };
 
   const handleClose = () => {
     setButtonNo("1");
     setName("");
+    setButtonType("client");
     setCommands([
       { id: 0, send: "", receive: "", duration: 0, sequence_order: 0 },
     ]);
@@ -294,6 +303,57 @@ export default function ButtonAddModal({
                 width="w-full"
                 onChange={(value) => setName(value)}
               />
+
+              {/* Button Type */}
+              <div className="flex items-center w-full h-11 max-sm:flex-col max-sm:gap-2 max-sm:items-start max-sm:h-auto">
+                <div className="text-base leading-6 text-neutral-700 w-[120px] max-sm:w-full">
+                  버튼 타입
+                </div>
+                <div className="w-full">
+                  <div className="relative">
+                    <button
+                      onClick={() =>
+                        setIsButtonTypeDropdownOpen(!isButtonTypeDropdownOpen)
+                      }
+                      className="flex gap-10 justify-between items-center p-3 w-full bg-white rounded-md border border-gray-200 border-solid text-xs font-bold text-sky-500"
+                    >
+                      <span className="self-stretch my-auto text-sky-500">
+                        {buttonType === "client" ? "클라이언트" : "어드민"}
+                      </span>
+                      <Image
+                        src="/arrow_down.svg"
+                        alt="dropdown arrow"
+                        width={10}
+                        height={7}
+                        className="flex-shrink-0"
+                      />
+                    </button>
+
+                    {isButtonTypeDropdownOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                        <button
+                          onClick={() => {
+                            setButtonType("client");
+                            setIsButtonTypeDropdownOpen(false);
+                          }}
+                          className="w-full p-3 text-left hover:bg-gray-50 text-sky-500 first:rounded-t-md last:rounded-b-md text-xs font-bold"
+                        >
+                          클라이언트
+                        </button>
+                        <button
+                          onClick={() => {
+                            setButtonType("admin");
+                            setIsButtonTypeDropdownOpen(false);
+                          }}
+                          className="w-full p-3 text-left hover:bg-gray-50 text-sky-500 first:rounded-t-md last:rounded-b-md text-xs font-bold"
+                        >
+                          어드민
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
 
               {/* Commands Section */}
               <div className="w-full">
@@ -405,18 +465,18 @@ export default function ButtonAddModal({
               {buttonData ? (
                 <Button
                   onClick={handleDelete}
-                  disabled={saving}
+                  disabled={isSaving || isDeleting}
                   variant="outline"
                   className="flex gap-1 justify-center items-center px-2.5 py-1 bg-white border border-red-500 rounded-lg text-base font-bold leading-6 hover:text-red-500 text-red-500 hover:bg-red-50 h-[52px] w-[200px] max-sm:w-full disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {saving ? (
+                  {isDeleting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin mx-2" />
                       삭제 중
                     </>
                   ) : (
                     <>
-                      <Trash2 className="w-4 h-4" />
+                      
                       삭제
                     </>
                   )}
@@ -424,18 +484,19 @@ export default function ButtonAddModal({
               ) : (
                 <Button
                   onClick={handleClose}
+                  disabled={isSaving || isDeleting}
                   variant="outline"
-                  className="flex gap-1 justify-center items-center px-2.5 py-1 bg-white border border-gray-300 rounded-lg text-base font-bold leading-6 text-gray-700 hover:bg-gray-50 h-[52px] w-[200px] max-sm:w-full"
+                  className="flex gap-1 justify-center items-center px-2.5 py-1 bg-white border border-gray-300 rounded-lg text-base font-bold leading-6 text-gray-700 hover:bg-gray-50 h-[52px] w-[200px] max-sm:w-full disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   취소
                 </Button>
               )}
               <Button
                 onClick={handleSave}
-                disabled={saving}
+                disabled={isSaving || isDeleting}
                 className="flex gap-1 justify-center items-center px-2.5 py-1 bg-sky-500 rounded-lg text-base font-bold leading-6 text-white hover:bg-sky-600 h-[52px] w-[200px] max-sm:w-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {saving ? (
+                {isSaving ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin mx-2" />
                     저장 중

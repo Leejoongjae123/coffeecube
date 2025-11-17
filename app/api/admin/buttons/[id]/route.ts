@@ -11,11 +11,12 @@ export async function PATCH(
     const supabase = await createClient();
     const { id } = await params;
     const body = await request.json();
-    const { button_no, name, commands } = body;
+    const { button_no, name, button_type, commands } = body;
 
     // 필드 검증
     if (
       !name ||
+      !button_type ||
       !commands ||
       !Array.isArray(commands) ||
       commands.length === 0
@@ -23,7 +24,18 @@ export async function PATCH(
       return NextResponse.json(
         {
           success: false,
-          message: "버튼 이름과 최소 1개의 명령어를 입력해주세요.",
+          message: "버튼 이름, 버튼 타입과 최소 1개의 명령어를 입력해주세요.",
+        },
+        { status: 400 }
+      );
+    }
+
+    // button_type 검증
+    if (button_type !== "client" && button_type !== "admin") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "버튼 타입은 'client' 또는 'admin'이어야 합니다.",
         },
         { status: 400 }
       );
@@ -70,7 +82,7 @@ export async function PATCH(
     }
 
     // 2. 버튼 업데이트 (번호 변경 포함)
-    const updateData: any = { name };
+    const updateData: any = { name, button_type };
     if (button_no && button_no !== buttonNo) {
       updateData.button_no = button_no;
     }
@@ -117,6 +129,7 @@ export async function PATCH(
         id: buttonData.button_no.toString(),
         button_no: buttonData.button_no,
         name: buttonData.name,
+        button_type: buttonData.button_type,
         commands: commandsData,
         created_at: buttonData.created_at,
         updated_at: buttonData.updated_at,

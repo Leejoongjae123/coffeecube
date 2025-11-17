@@ -3,12 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Search, RotateCcw } from "lucide-react";
 import { ButtonData } from "../types";
 import ButtonAddModal from "./ButtonAddModal";
@@ -16,6 +10,9 @@ import ButtonAddModal from "./ButtonAddModal";
 export default function ButtonManagementPage() {
   const [searchCondition, setSearchCondition] = useState("전체");
   const [searchQuery, setSearchQuery] = useState("");
+  const [buttonType, setButtonType] = useState<"all" | "client" | "admin">(
+    "all"
+  );
   const [data, setData] = useState<ButtonData[]>([]);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -27,6 +24,16 @@ export default function ButtonManagementPage() {
   const [reordering, setReordering] = useState(false);
 
   const searchConditions = ["전체", "번호", "버튼 이름"];
+  const buttonTypes = [
+    { value: "all", label: "전체" },
+    { value: "client", label: "클라이언트" },
+    { value: "admin", label: "어드민" },
+  ];
+
+  const [isButtonTypeDropdownOpen, setIsButtonTypeDropdownOpen] =
+    useState(false);
+  const [isSearchConditionDropdownOpen, setIsSearchConditionDropdownOpen] =
+    useState(false);
 
   // 데이터 페칭 함수
   const fetchData = async () => {
@@ -40,8 +47,10 @@ export default function ButtonManagementPage() {
       if (searchQuery) {
         params.append("searchQuery", searchQuery);
       }
+      if (buttonType && buttonType !== "all") {
+        params.append("buttonType", buttonType);
+      }
 
-      // TODO: 실제 API 엔드포인트로 변경
       const response = await fetch(`/api/admin/buttons?${params.toString()}`);
       const result = await response.json();
 
@@ -68,6 +77,7 @@ export default function ButtonManagementPage() {
   const handleReset = () => {
     setSearchCondition("전체");
     setSearchQuery("");
+    setButtonType("all");
     fetchData();
   };
 
@@ -157,41 +167,47 @@ export default function ButtonManagementPage() {
     <div className="w-full">
       {/* Filter Section */}
       <div className="flex justify-between items-end p-8 rounded-2xl bg-stone-50 mb-4 max-md:flex-col max-md:gap-5 items-center max-md:p-5 max-sm:p-4">
-        <div className="flex gap-5 items-center max-md:mt-5">
-          <div className="flex gap-5 items-center max-md:flex-col max-md:gap-3 max-md:items-start">
+        <div className="flex gap-5 items-center max-md:mt-5 max-md:flex-col max-md:items-start max-md:w-full">
+          <div className="flex gap-5 items-center max-md:flex-col max-md:gap-3 max-md:items-start max-md:w-full">
             <div className="text-xl font-bold text-neutral-700 max-sm:text-base">
               검색 조건
             </div>
-            <div className="flex gap-3 items-center px-3 py-2 h-[38px] w-80 text-xs bg-white rounded-md border border-gray-200 max-md:w-full">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="flex gap-2 items-center font-bold text-sky-500 cursor-pointer">
-                    <div className="text-sky-500">{searchCondition}</div>
-                    <Image
-                      src="/arrow_down.svg"
-                      alt="dropdown arrow"
-                      width={10}
-                      height={7}
-                      className="flex-shrink-0"
-                    />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
+            <div className="relative flex gap-3 items-center px-3 py-2 h-[38px] w-80 text-xs bg-white rounded-md border border-gray-200 max-md:w-full">
+              <button
+                onClick={() =>
+                  setIsSearchConditionDropdownOpen(
+                    !isSearchConditionDropdownOpen
+                  )
+                }
+                className="flex gap-2 items-center font-bold text-sky-500 cursor-pointer"
+              >
+                <div className="text-sky-500">{searchCondition}</div>
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
+              </button>
+
+              {isSearchConditionDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 min-w-[120px]">
                   {searchConditions.map((condition) => (
-                    <DropdownMenuItem
+                    <button
                       key={condition}
-                      onClick={() => setSearchCondition(condition)}
-                      className={
-                        searchCondition === condition
-                          ? "text-sky-500 font-semibold"
-                          : ""
-                      }
+                      onClick={() => {
+                        setSearchCondition(condition);
+                        setIsSearchConditionDropdownOpen(false);
+                      }}
+                      className="w-full p-3 text-left hover:bg-gray-50 text-sky-500 first:rounded-t-md last:rounded-b-md text-xs font-bold"
                     >
                       {condition}
-                    </DropdownMenuItem>
+                    </button>
                   ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </div>
+              )}
+
               <input
                 type="text"
                 placeholder="검색조건을 입력해주세요"
@@ -199,6 +215,47 @@ export default function ButtonManagementPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1 font-medium text-neutral-500 bg-transparent border-none outline-none placeholder:text-neutral-500"
               />
+            </div>
+          </div>
+          <div className="flex gap-5 items-center max-md:flex-col max-md:gap-3 max-md:items-start max-md:w-full">
+            <div className="text-xl font-bold text-neutral-700 max-sm:text-base">
+              버튼 타입
+            </div>
+            <div className="relative w-80 max-md:w-full">
+              <button
+                onClick={() =>
+                  setIsButtonTypeDropdownOpen(!isButtonTypeDropdownOpen)
+                }
+                className="flex gap-10 justify-between items-center p-3 w-full bg-white rounded-md border border-gray-200 border-solid text-xs font-bold text-sky-500 h-[38px]"
+              >
+                <span className="self-stretch my-auto text-sky-500">
+                  {buttonTypes.find((t) => t.value === buttonType)?.label}
+                </span>
+                <Image
+                  src="/arrow_down.svg"
+                  alt="dropdown arrow"
+                  width={10}
+                  height={7}
+                  className="flex-shrink-0"
+                />
+              </button>
+
+              {isButtonTypeDropdownOpen && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                  {buttonTypes.map((type) => (
+                    <button
+                      key={type.value}
+                      onClick={() => {
+                        setButtonType(type.value as "all" | "client" | "admin");
+                        setIsButtonTypeDropdownOpen(false);
+                      }}
+                      className="w-full p-3 text-left hover:bg-gray-50 text-sky-500 first:rounded-t-md last:rounded-b-md text-xs font-bold"
+                    >
+                      {type.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -235,7 +292,7 @@ export default function ButtonManagementPage() {
       {/* Data Table */}
       <div className="flex flex-col items-start self-stretch max-md:overflow-x-auto">
         {/* Table Header */}
-        <div className="flex justify-between items-center self-stretch px-4 py-0 rounded bg-zinc-100 max-md:min-w-[800px] max-sm:text-xs max-sm:min-w-[600px]">
+        <div className="flex justify-between items-center self-stretch px-4 py-0 rounded bg-zinc-100 max-md:min-w-[900px] max-sm:text-xs max-sm:min-w-[700px]">
           <div className="flex gap-2.5 justify-center items-center px-2.5 py-4 flex-1">
             <div className="text-xs font-bold text-center text-neutral-600 max-sm:text-xs">
               번호
@@ -244,6 +301,11 @@ export default function ButtonManagementPage() {
           <div className="flex gap-2.5 justify-center items-center px-2.5 py-4 flex-1">
             <div className="text-xs font-bold text-center text-neutral-600 max-sm:text-xs">
               버튼 이름
+            </div>
+          </div>
+          <div className="flex gap-2.5 justify-center items-center px-2.5 py-4 flex-1">
+            <div className="text-xs font-bold text-center text-neutral-600 max-sm:text-xs">
+              버튼 타입
             </div>
           </div>
           <div className="flex gap-2.5 justify-center items-center px-2.5 py-4 flex-1">
@@ -283,7 +345,7 @@ export default function ButtonManagementPage() {
               onDragOver={(e) => handleDragOver(e, index)}
               onDragEnd={handleDragEnd}
               onClick={() => handleRowClick(item.id)}
-              className={`flex justify-between items-center self-stretch px-4 py-0 rounded cursor-move hover:bg-gray-50 max-md:min-w-[800px] max-sm:text-xs max-sm:min-w-[600px] transition-all ${
+              className={`flex justify-between items-center self-stretch px-4 py-0 rounded cursor-move hover:bg-gray-50 max-md:min-w-[900px] max-sm:text-xs max-sm:min-w-[700px] transition-all ${
                 draggedIndex === index ? "opacity-50 bg-blue-50" : ""
               } ${getRowStyle(item)}`}
             >
@@ -303,6 +365,15 @@ export default function ButtonManagementPage() {
                   )}`}
                 >
                   {item.name}
+                </div>
+              </div>
+              <div className="flex gap-2.5 justify-center items-center px-2.5 py-4 flex-1">
+                <div
+                  className={`text-xs text-center max-sm:text-xs ${getTextStyle(
+                    item
+                  )}`}
+                >
+                  {item.button_type === "client" ? "클라이언트" : "어드민"}
                 </div>
               </div>
               <div className="flex gap-2.5 justify-center items-center px-2.5 py-4 flex-1">

@@ -162,11 +162,15 @@ export interface ButtonCommand {
   sequence_order: number;
 }
 
+// 버튼 타입
+export type ButtonType = "client" | "admin";
+
 // 버튼 관련 타입
 export interface ButtonData {
   id: string;
   button_no: number;
   name: string;
+  button_type: ButtonType;
   commands: ButtonCommand[];
   created_at: string;
   updated_at: string;
@@ -188,6 +192,7 @@ export interface ButtonApiResponse {
 // 버튼 생성/수정 요청 타입
 export interface ButtonRequest {
   name: string;
+  button_type: ButtonType;
   commands: Array<{
     send: string;
     receive: string;
