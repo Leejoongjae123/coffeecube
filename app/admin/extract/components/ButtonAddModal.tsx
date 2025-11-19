@@ -167,8 +167,8 @@ export default function ButtonAddModal({
     }
 
     for (const cmd of commands) {
-      if (!cmd.send.trim() || !cmd.receive.trim() || cmd.duration <= 0) {
-        error("모든 명령어의 Send, Receive, Duration을 입력해주세요.");
+      if (!cmd.send.trim() || cmd.duration <= 0) {
+        error("모든 명령어의 Send, Duration을 입력해주세요.");
         return;
       }
     }
@@ -193,7 +193,7 @@ export default function ButtonAddModal({
           button_type: buttonType,
           commands: commands.map((cmd, index) => ({
             send: cmd.send,
-            receive: cmd.receive,
+            receive: cmd.receive || "",
             duration: cmd.duration,
             sequence_order: index,
           })),
@@ -407,7 +407,10 @@ export default function ButtonAddModal({
 
                         <div className="space-y-2">
                           <div className="text-sm font-medium text-neutral-700">
-                            Receive
+                            Receive{" "}
+                            <span className="text-xs text-gray-400">
+                              (선택)
+                            </span>
                           </div>
                           <input
                             type="text"
@@ -475,10 +478,7 @@ export default function ButtonAddModal({
                       삭제 중
                     </>
                   ) : (
-                    <>
-                      
-                      삭제
-                    </>
+                    <>삭제</>
                   )}
                 </Button>
               ) : (
