@@ -1,3 +1,13 @@
+/**
+ * Daum 우편번호 서비스를 사용한 주소 검색 모달 컴포넌트
+ * @see https://postcode.map.daum.net/guide
+ *
+ * 주요 기능:
+ * - Daum Postcode API를 통한 주소 검색
+ * - 도로명 주소 및 지번 주소 지원
+ * - 사용자가 선택한 주소 타입 반영
+ * - 상세주소 입력 지원
+ */
 "use client";
 
 import React, { useState } from "react";
@@ -15,17 +25,46 @@ import { Label } from "@/components/ui/label";
 // Daum Postcode API 타입 정의
 declare global {
   interface Window {
-    daum: {
-      Postcode: new (options: {
-        oncomplete: (data: DaumPostcodeData) => void;
-        onclose?: () => void;
-        width?: string | number;
-        height?: string | number;
-      }) => {
-        open: () => void;
-      };
+    daum?: {
+      Postcode: new (options: PostcodeOptions) => PostcodeInstance;
     };
   }
+}
+
+interface PostcodeOptions {
+  oncomplete: (data: DaumPostcodeData) => void;
+  onclose?: () => void;
+  onresize?: (size: { width: number; height: number }) => void;
+  onsearch?: (searchData: { q: string }) => void;
+  width?: string | number;
+  height?: string | number;
+  animation?: boolean;
+  focusInput?: boolean;
+  theme?: {
+    bgColor?: string;
+    searchBgColor?: string;
+    contentBgColor?: string;
+    pageBgColor?: string;
+    textColor?: string;
+    queryTextColor?: string;
+    postcodeTextColor?: string;
+    emphTextColor?: string;
+    outlineColor?: string;
+  };
+}
+
+interface PostcodeInstance {
+  open: (openOptions?: {
+    q?: string;
+    left?: number;
+    top?: number;
+    popupTitle?: string;
+    autoClose?: boolean;
+  }) => void;
+  embed: (
+    targetElement: HTMLElement,
+    embedOptions?: { q?: string; autoClose?: boolean }
+  ) => void;
 }
 
 interface DaumPostcodeData {
@@ -33,17 +72,35 @@ interface DaumPostcodeData {
   address: string; // 주소
   addressEnglish: string; // 영문 주소
   addressType: "R" | "J"; // R: 도로명, J: 지번
-  bname: string; // 법정동/법정리 이름
+  userSelectedType: "R" | "J"; // 사용자가 선택한 주소 타입
+  roadAddress: string; // 도로명 주소
+  roadAddressEnglish: string; // 영문 도로명 주소
+  jibunAddress: string; // 지번 주소
+  jibunAddressEnglish: string; // 영문 지번 주소
+  autoRoadAddress: string; // 도로명 주소(참고항목 제외)
+  autoRoadAddressEnglish: string; // 영문 도로명 주소(참고항목 제외)
+  autoJibunAddress: string; // 지번 주소(참고항목 제외)
+  autoJibunAddressEnglish: string; // 영문 지번 주소(참고항목 제외)
+  buildingCode: string; // 건물 관리 번호
   buildingName: string; // 건물명
   apartment: "Y" | "N"; // 공동주택 여부
-  jibunAddress: string; // 지번 주소
-  roadAddress: string; // 도로명 주소
-  autoRoadAddress: string; // 도로명 주소(참고항목 제외)
-  autoJibunAddress: string; // 지번 주소(참고항목 제외)
-  userSelectedType: "R" | "J"; // 사용자가 선택한 주소 타입
-  sido?: string; // 시/도
-  sigungu?: string; // 시/군/구
-  bcode?: string; // 법정동 코드
+  sido: string; // 시/도
+  sidoEnglish: string; // 영문 시/도
+  sigungu: string; // 시/군/구
+  sigunguEnglish: string; // 영문 시/군/구
+  sigunguCode: string; // 시/군/구 코드
+  roadnameCode: string; // 도로명 코드
+  bcode: string; // 법정동/법정리 코드
+  roadname: string; // 도로명
+  roadnameEnglish: string; // 영문 도로명
+  bname: string; // 법정동/법정리 이름
+  bnameEnglish: string; // 영문 법정동/법정리 이름
+  bname1: string; // 법정리의 읍/면 이름
+  bname1English: string; // 영문 법정리의 읍/면 이름
+  bname2: string; // 법정동/법정리 이름
+  bname2English: string; // 영문 법정동/법정리 이름
+  hname: string; // 행정동 이름
+  query: string; // 검색어
 }
 
 interface AddressSearchModalProps {
@@ -64,47 +121,62 @@ export default function AddressSearchModal({
   const [selectedAddress, setSelectedAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+  const [scriptError, setScriptError] = useState(false);
   const [regionDong, setRegionDong] = useState<string>("");
   const [regionSi, setRegionSi] = useState<string>("");
 
   const handlePostcodeSearch = () => {
-    if (!isScriptLoaded || !window.daum) {
+    if (!window.daum) {
       alert("주소 검색 서비스를 로딩 중입니다. 잠시 후 다시 시도해주세요.");
       return;
     }
 
-    const postcode = new window.daum.Postcode({
-      oncomplete: (data: DaumPostcodeData) => {
-        // 사용자가 선택한 주소 타입에 따라 주소 설정
-        let fullAddress = data.address;
-        let extraAddress = "";
+    try {
+      const postcode = new window.daum.Postcode({
+        oncomplete: (data: DaumPostcodeData) => {
+          // 사용자가 선택한 주소 타입에 따라 주소 설정
+          let fullAddress = "";
+          let extraAddress = "";
 
-        // 도로명 주소인 경우
-        if (data.addressType === "R") {
-          if (data.bname !== "") {
-            extraAddress += data.bname;
+          // 사용자가 선택한 주소 타입 기준으로 주소 설정
+          if (data.userSelectedType === "R") {
+            // 도로명 주소 선택
+            fullAddress = data.roadAddress;
+          } else {
+            // 지번 주소 선택
+            fullAddress = data.jibunAddress;
           }
-          if (data.buildingName !== "") {
-            extraAddress +=
-              extraAddress !== ""
-                ? ", " + data.buildingName
-                : data.buildingName;
+
+          // 참고항목 추가 (도로명 주소인 경우)
+          if (data.userSelectedType === "R") {
+            if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+              extraAddress += data.bname;
+            }
+            if (data.buildingName !== "") {
+              extraAddress +=
+                extraAddress !== ""
+                  ? `, ${data.buildingName}`
+                  : data.buildingName;
+            }
+            if (extraAddress !== "") {
+              fullAddress += ` (${extraAddress})`;
+            }
           }
-          fullAddress += extraAddress !== "" ? " (" + extraAddress + ")" : "";
-        }
 
-        setSelectedAddress(fullAddress);
-        setRegionDong(data.bname || "");
-        setRegionSi(data.sigungu || "");
-      },
-      onclose: () => {
-        // 검색 창이 닫힐 때 처리할 내용 (필요시)
-      },
-      width: "100%",
-      height: "100%",
-    });
+          setSelectedAddress(fullAddress);
+          setRegionDong(data.bname || data.bname1 || "");
+          setRegionSi(data.sigungu || "");
+        },
+        width: "100%",
+        height: "100%",
+        animation: true,
+        focusInput: true,
+      });
 
-    postcode.open();
+      postcode.open();
+    } catch {
+      alert("주소 검색 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   const handleConfirm = () => {
@@ -130,11 +202,18 @@ export default function AddressSearchModal({
 
   return (
     <>
-      {/* Daum Postcode Script */}
+      {/* Daum Postcode Script - 공식 CDN */}
       <Script
-        src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
-        onLoad={() => setIsScriptLoaded(true)}
-        strategy="lazyOnload"
+        src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+        onLoad={() => {
+          setIsScriptLoaded(true);
+          setScriptError(false);
+        }}
+        onError={() => {
+          setScriptError(true);
+          setIsScriptLoaded(false);
+        }}
+        strategy="afterInteractive"
       />
 
       <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -165,10 +244,20 @@ export default function AddressSearchModal({
                   주소 검색
                 </Button>
               </div>
-              {!isScriptLoaded && (
-                <p className="text-sm text-gray-500 mt-1">
+              {!isScriptLoaded && !scriptError && (
+                <p className="text-sm text-muted-foreground mt-1">
                   주소 검색 서비스를 로딩 중입니다...
                 </p>
+              )}
+              {scriptError && (
+                <div className="mt-1 space-y-1">
+                  <p className="text-sm text-destructive">
+                    주소 검색 서비스를 불러올 수 없습니다.
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    네트워크 연결을 확인하거나 페이지를 새로고침해주세요.
+                  </p>
+                </div>
               )}
             </div>
 
